@@ -1,0 +1,58 @@
+{
+  "ecmaFeatures": {
+    "arrowFunctions": true,
+    "blockBindings": true,
+    "classes": true,
+    "defaultParams": true,
+    "destructuring": true,
+    "forOf": true,
+    "modules": true,
+    "objectLiteralComputedProperties": true,
+    "spread": true,
+    "globalReturn": true
+  },
+
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "jasmine": true
+  },
+
+  "rules": {
+    // Disabled
+    "global-strict": 0,
+    "no-underscore-dangle": 0,
+    "no-catch-shadow": 0,
+    "no-reserved-keys": 0,
+    "no-new": 0,
+    "no-multi-spaces": [1, {
+      "exceptions": {
+        "VariableDeclarator": true,
+        "AssignmentExpression": true
+      }
+    }],
+
+    // Disabled because does not work well
+    // with JSX multiline templates
+    "no-extra-parens": 0,
+    "no-trailing-spaces": 1,
+    "key-spacing": 1,
+    "no-eq-null": 1,
+    "no-self-compare": 1,
+    "no-throw-literal": 1,
+    "wrap-iife": 1,
+    "brace-style": 1,
+    "no-lonely-if": 1,
+    "eol-last": 1,
+    "quotes": [1, "single"],
+    "no-unused-vars": 1,
+    "space-infix-ops": 1,
+    "semi": 1,
+
+    // Error Level
+    "no-console": 2,
+    "no-debugger": 2,
+    //"indent": [2, 2, {"SwitchCase": 1}]
+  }
+}
