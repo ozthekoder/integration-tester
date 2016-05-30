@@ -1,8 +1,12 @@
 import Parser from '../../lib/parser';
+import { is, forEachKey, xor } from '../../lib/utility';
 import ValidationError from '../../lib/utility/custom-errors';
 import { validation } from '../../lib/config/constants.json';
+import test1 from '../data/test1.json';
+import test2 from '../data/test2.json';
+import test3 from '../data/test3.json';
 
-let parser, json1, json2, json3, json4, json5, json6, json7, json8;
+let parser, json1, json2, json3, json4, json5, json6, json7, json8, json9, json10, json11, json12;
 describe('Parser Class', () => {
 
   beforeEach(() => {
@@ -190,6 +194,201 @@ describe('Parser Class', () => {
       "$after": []
     };
 
+    json9 = {
+      "$id": "1",
+      "$log": "what should be logged",
+      "$name": "name of the operation. For reuse later",
+      "$before": [],
+      "$plugin": "http",
+      "$op": "post",
+      "$args": [],
+      "$payload": "",
+      "$timeout": 5000,
+      "$after": []
+    };
+
+    json10 = {
+      "$id": "1",
+      "$log": "what should be logged",
+      "$name": "name of the operation. For reuse later",
+      "$before": [],
+      "$plugin": "http",
+      "$op": "post",
+      "$args": [],
+      "$payload": {
+        "$expect": {
+          "$value": "foo",
+          "$assert": "equal",
+          "$log": 5
+        }
+      },
+      "$timeout": 5000,
+      "$after": []
+    };
+
+    json11 = {
+      "$before": [
+        {
+          "$before": [
+            {
+              "$before": [],
+              "$op": "0",
+              "$after": []
+            },
+            {
+              "$before": [],
+              "$ops": [
+                {
+                  "$before": [],
+                  "$op": "1",
+                  "$after": []
+                }
+              ],
+              "$after": [
+                {
+                  "$before": [],
+                  "$op": "2",
+                  "$after": []
+                }
+              ]
+            }
+          ],
+          "$op": "3",
+          "$after": [
+            {
+              "$before": [],
+              "$op": "4",
+              "$after": []
+            }
+          ]
+        },
+        {
+          "$before": [
+            {
+              "$before": [],
+              "$op": "5",
+              "$after": []
+            }
+          ],
+          "$ops": [
+            {
+              "$before": [],
+              "$op": "6",
+              "$after": []
+            }
+          ],
+          "$after": [
+            {
+              "$before": [],
+              "$op": "7",
+              "$after": []
+            }
+          ]
+        }
+      ],
+      "$ops": [
+        {
+          "$before": [
+            {
+              "$before": [],
+              "$op": "8",
+              "$after": []
+            }
+          ],
+          "$op": "9",
+          "$after": [
+            {
+              "$before": [],
+              "$op": "10",
+              "$after": []
+            }
+          ]
+        },
+        {
+          "$before": [],
+          "$op": "11",
+          "$after": [
+            {
+              "$before": [],
+              "$op": "12",
+              "$after": []
+            }
+          ]
+        },
+        {
+          "$before": [
+            {
+              "$before": [],
+              "$op": "13",
+              "$after": []
+            }
+          ],
+          "$op": "14",
+          "$after": [
+            {
+              "$before": [],
+              "$op": "15",
+              "$after": []
+            }
+          ]
+        }
+      ],
+      "$after": [
+        {
+          "$before": [],
+          "$ops": [
+            {
+              "$before": [],
+              "$op": "16",
+              "$after": []
+            },
+            {
+              "$before": [],
+              "$op": "17",
+              "$after": []
+            }
+          ],
+          "$after": []
+        },
+        {
+          "$before": [],
+          "$op": "18",
+          "$after": []
+        }
+      ]
+    };
+
+    json12 = {
+      "$before": [
+        {
+          "$before": [],
+          "$op": "0",
+          "$skip": true,
+          "$after": [
+            {
+              "$before": [],
+              "$op": "1",
+              "$after": []
+            }
+          ]
+        }
+      ],
+      "$ops": [
+        {
+          "$before": [],
+          "$op": "2",
+          "$after": []
+        }
+      ],
+      "$after": [
+        {
+          "$before": [],
+          "$op": "3",
+          "$after": []
+        }
+      ]
+    };
+
     parser = new Parser(validation);
   });
 
@@ -369,12 +568,101 @@ describe('Parser Class', () => {
       expect(parser.isDesignatedKey).to.be.a('function');
     });
 
-    it('should return true if the node is a leaf node', () =>{
-      expect(parser.isLeafNode({ "$foo": "bar", "$goo": "baz" })).to.equal(true);
+    it('should return true if the key is a designated key', () =>{
+      expect(parser.isDesignatedKey("$foo")).to.equal(true);
     });
 
-    it('should return false if the node is not a leaf node', () => {
-      expect(parser.isLeafNode({"$aaa": "bbb", "w$w": "eee"})).to.equal(false);
+    it('should return false if the key is not a designated key', () => {
+      expect(parser.isDesignatedKey("eee")).to.equal(false);
+    });
+  });
+
+  describe('validateTypes method', () => {
+    it('should be defined', () => {
+      expect(parser.validateTypes).to.be.a('function');
+    });
+
+    it('should return true if all the value types are what\'s expected', () =>{
+      expect(parser.validateTypes(json9)).to.equal(true);
+    });
+
+    it('should throw a ValidationError if any of the types are not correct', () => {
+      expect(parser.validateTypes.bind(parser, json10)).to.throw(ValidationError);
+    });
+  });
+
+  describe('validate method', () => {
+    it('should be defined', () => {
+      expect(parser.validate).to.be.a('function');
+    });
+
+    it('should return true if the blueprint is valid', () => {
+      expect(parser.validate(test1)).to.equal(true);
+    });
+
+    it('should throw a ValidationError if any of the required keys are missing or keys that are not supposed be there are there', () => {
+      expect(parser.validate.bind(parser, test2)).to.throw(ValidationError);
+    });
+
+    it('should throw a ValidationError if any of the values are not of required type', () => {
+      expect(parser.validate.bind(parser, test3)).to.throw(ValidationError);
+    });
+
+  });
+
+  describe('flatten method', () => {
+    it('should be defined', () => {
+      expect(parser.flatten).to.be.a('function');
+    });
+
+    it('should successfully flatten all recursive fields into an array and remove recursive fields from each item', () => {
+      const flat = parser.flatten(json11);
+      expect(flat.length).to.equal(19);
+      forEachKey(validation.recursive, (key) => {
+        if(is(json11[key] === 'array')) {
+          flat.forEach((item, index) => expect(key in item).to.equal(false));
+        } else if(is(json11[key]) === 'string') {
+          flat.forEach((item, index) => expect(item[key]).to.equal(index.toString()));
+        }
+      });
+    });
+
+    it('should skip the operaions with $skip: true', () => {
+      const flat = parser.flatten(json12);
+      expect(flat.length).to.equal(2);
+    });
+  });
+
+  describe('parse method', () => {
+    beforeEach(() => {
+      stub(parser, 'validate')
+      .onFirstCall()
+      .returns(true);
+      stub(parser, 'flatten').returns([]);
+    });
+
+    after(() => {
+      parser.validate.restore();
+      parser.flatten.restore();
+    });
+
+    it('should be defined', () => {
+      expect(parser.parse).to.be.a('function');
+    });
+
+    it('should return the validated, completed, flattened blueprint', () => {
+      parser.parse(json1);
+      expect(parser.validate).to.have.been.calledWith(json1);
+      expect(parser.flatten).to.have.been.calledWith(json1);
+    });
+
+    it('should throw a ValidationError if the blueprint is invalid', () => {
+      parser.validate.restore();
+      stub(parser, 'validate')
+      .onFirstCall()
+      .returns(false);
+
+      expect(parser.parse.bind(parser, json1)).to.throw(ValidationError);
     });
   });
 

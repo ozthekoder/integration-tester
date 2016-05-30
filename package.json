@@ -15,7 +15,7 @@
     "prepublish": "npm run build",
     "coverage-report": "node node_modules/nyc/bin/nyc.js --reporter cobertura --reporter html --require babel-core/register --require ./src/spec/bootstrap.js node_modules/mocha/bin/_mocha --bail --recursive 'src/spec/unit'",
     "check-coverage": "node node_modules/nyc/bin/nyc.js check-coverage --lines 80 --functions 80 --branches 50",
-    "build": "node_modules/babel-cli/bin/babel.js src --out-dir dist --copy-files --source-maps",
+    "build": "rm -rf dist/; node_modules/babel-cli/bin/babel.js src --out-dir dist --copy-files --source-maps",
     "jshint": "node node_modules/eslint/bin/eslint.js 'node_modules/eslint-friendly-formatter' ./src/spec ./src/lib",
     "component-test": "multi='tap=- xunit=spec/reports/xunit.xml' node node_modules/mocha/bin/mocha --opts ./mocha.opts | node_modules/faucet/bin/cmd.js",
     "component-test-no-faucet": "multi='tap=- xunit=spec/reports/xunit.xml' node node_modules/mocha/bin/mocha --opts ./mocha.opts",

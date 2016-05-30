@@ -1,183 +1,73 @@
 {
-  "title": "Ping - Health - Config",
-  "cases": [
+  "$id": "123123123",
+  "$log": "what should be logged after execution",
+  "$name": "name of the operation. For reuse later",
+  "$before": [
     {
-      "title": "service can be pinged",
-      "before": [
-        {
-          "type": "wait",
-          "operation": "wait",
-          "args":  [0]
+      "$id": "1",
+      "$log": "what should be logged",
+      "$name": "name of the operation. For reuse later",
+      "$before": [],
+      "$plugin": "http",
+      "$op": "post",
+      "$args": [],
+      "$payload": {
+        "$expect": {
+          "$value": "",
+          "$assert": "",
+          "$log": ""
         },
-        {
-          "type": "ohcm",
-          "operation": "login",
-          "args": ["rob.tucker"]
+        "$save": {
+          "_objectId": "$123123123$"
         }
-      ],
-      "after": [
-        {
-          "type": "ohcm",
-          "operation": "logout"
-        },
-        {
-          "type": "wait",
-          "operation": "wait",
-          "args": [100]
-        }
-      ],
-      "endpoint": "/api/authorization-service/v1/ping",
-      "type": "http",
-      "action": "get",
-      "headers": {
-        "content-type": "application/json"
       },
-      "expect": {
-        "status": {
-          "value": 200,
-          "assert": "equal",
-          "log": "ping status should be 200"
-        }
-      }
-    },
+      "$timeout": 5000,
+      "$after": []
+    }
+  ],
+  "$plugin": "http",
+  "$op": "post",
+  "$args": [
     {
-      "title": "service is healthy",
-      "before": [
-
-      ],
-      "after": [
-
-      ],
-      "endpoint": "/api/authorization-service/v1/health",
-      "type": "ohcm",
-      "action": "post",
-      "headers": {
-        "content-type": "application/json"
-      },
-      "expect": {
-        "status": {
-          "value": 200,
-          "assert": "equal",
-          "log": "health status should be 200"
-        },
-        "body": {
-          "health": {
-            "v": {
-              "value": 2,
-              "assert": "equal",
-              "log": "service version should be 2"
-            },
-            "self": {
-              "status": {
-                "value": 200,
-                "assert": "equal",
-                "log": "service health status should be 200"
-              }
-            },
-            "dependencies": {
-              "http": {
-                "0": {
-                  "status": {
-                    "value": 200,
-                    "assert": "equal",
-                    "log": "metadata service health status should be 200"
-                  }
-                }
-              }
-            }
-          }
-        }
+      "foo": {
+        "bar": [
+          "aaa",
+          "bbb",
+          "$123123123$"
+                ]
       }
-    },
+    }
+  ],
+  "$payload": {
+    "$expect": {
+      "$value": "",
+      "$assert": "",
+      "$log": ""
+    }
+  },
+  "$timeout": 5000,
+  "$after": [
     {
-      "title": "lego policy can be switched to blacklist",
-      "before": [
-        {
-          "type": "ohcm",
-          "operation": "login",
-          "args": ["rob.tucker"]
+      "$id": "2",
+      "$log": "what should be logged",
+      "$name": "name of the operation. For reuse later",
+      "$before": [],
+      "$plugin": "http",
+      "$op": "post",
+      "$args": [],
+      "$payload": {
+        "$expect": {
+          "$value": "wwwwwwwwwww",
+          "$log": "qqqqqqqqqqqqqq"
         },
-        {
-          "type": "wait",
-          "operation": "wait",
-          "args":  [0]
-        },
-        {
-          "type": "ohcm",
-          "operation": "configure",
-          "args": [{
-            "default-behavior": "blacklist"
-          }]
+        "$save": {},
+        "$waitFor": {
+          "$value": "",
+          "$log": ""
         }
-      ],
-      "after": [
-        {
-          "type": "wait",
-          "operation": "wait",
-          "args": [0]
-        }
-      ],
-      "endpoint": "/api/authorization-service/v1/admin/configure/default-behavior",
-      "type": "http",
-      "action": "get",
-      "headers": {
-        "content-type": "application/json"
       },
-      "expect": {
-        "status": {
-          "value": 200,
-          "assert": "equal",
-          "log": "it should return a 200 as status"
-        },
-        "text": {
-          "value": "blacklist",
-          "assert": "equal",
-          "log": "default policy should be blacklist after the call"
-        }
-      }
-    },
-    {
-      "title": "lego policy can be switched to whitelist",
-      "before": [
-        {
-          "type": "ohcm",
-          "operation": "login",
-          "args": ["rob.tucker"]
-        },
-        {
-          "type": "ohcm",
-          "operation": "configure",
-          "args": [{
-            "default-behavior": "whitelist"
-          }]
-        }
-      ],
-      "after": [
-        {
-          "type": "wait",
-          "operation": "wait",
-          "args": [0]
-        }
-      ],
-      "endpoint": "/api/authorization-service/v1/admin/configure/default-behavior",
-      "type": "http",
-      "action": "get",
-      "headers": {
-        "content-type": "application/json"
-      },
-
-      "expect": {
-        "status": {
-          "value": 200,
-          "assert": "equal",
-          "log": "it should return a 200 as status"
-        },
-        "text": {
-          "value": "whitelist",
-          "assert": "equal",
-          "log": "default policy should be whitelist after the call"
-        }
-      }
+      "$timeout": 5000,
+      "$after": []
     }
   ]
 }

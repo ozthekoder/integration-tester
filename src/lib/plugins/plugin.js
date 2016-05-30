@@ -5,6 +5,10 @@ module.exports = class Plugin {
     this.required = required;
   }
 
+  initialize() {
+    return Promise.resolve(this);
+  }
+
   register(context) {
     this.required.forEach((req) => {
       if(!context.plugins[req]) {

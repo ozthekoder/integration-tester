@@ -1,180 +1,98 @@
 {
-  "title": "Ping - Health - Config",
-  "cases": [
+  "$id": "0",
+  "$log": "what should be logged after execution",
+  "$name": "name of the operation. For reuse later",
+  "$before": [
     {
-      "title": "service can be pinged",
-      "before": [
-        {
-          "type": "wait",
-          "operation": "wait",
-          "args":  [0]
+      "$id": "1",
+      "$log": "what should be logged",
+      "$name": "name of the operation. For reuse later",
+      "$before": [],
+      "$plugin": "http",
+      "$op": "post",
+      "$args": [],
+      "$payload": {
+        "$expect": {
+          "$value": "",
+          "$assert": "",
+          "$log": ""
         },
-        {
-          "type": "ohcm",
-          "operation": "login",
-          "args": ["rob.tucker"]
+        "$save": {
+          "_objectId": "$123123123$"
         }
-      ],
-      "after": [
-        {
-          "type": "wait",
-          "operation": "wait",
-          "args": [0]
-        }
-      ],
-      "type": "http",
-      "endpoint": "/api/authorization-service/v1/ping",
-      "action": "get",
-      "headers": {
-        "content-type": "application/json"
       },
-      "expect": {
-        "status": {
-          "value": 200,
-          "assert": "equal",
-          "log": "ping status should be 200"
+      "$timeout": 5000,
+      "$after": []
+    }
+  ],
+  "$beforeEach": [
+    {
+      "$id": "1",
+      "$log": "what should be logged",
+      "$name": "name of the operation. For reuse later",
+      "$before": [],
+      "$plugin": "http",
+      "$op": "post",
+      "$args": [],
+      "$payload": {
+        "$expect": {
+          "$value": "",
+          "$assert": "",
+          "$log": ""
+        },
+        "$save": {
+          "_objectId": "$123123123$"
         }
+      },
+      "$timeout": 5000,
+      "$after": []
+    }
+  ],
+  "$plugin": "http",
+  "$op": "post",
+  "$args": [
+    {
+      "foo": {
+        "bar": [
+          "aaa",
+          "bbb",
+          "$123123123$"
+                ]
       }
+    }
+  ],
+  "$payload": {
+    "$expect": {
+      "$value": "",
+      "$assert": "",
+      "$log": ""
     },
+    "$save": {}
+  },
+  "$timeout": 5000,
+  "$after": [
     {
-      "title": "service is healthy",
-      "before": [
-
-      ],
-      "after": [
-
-      ],
-      "type": "http",
-      "endpoint": "/api/authorization-service/v1/health",
-      "action": "post",
-      "headers": {
-        "content-type": "application/json"
+      "$id": "2",
+      "$log": "what should be logged",
+      "$name": "name of the operation. For reuse later",
+      "$before": [],
+      "$plugin": "http",
+      "$op": "post",
+      "$args": [],
+      "$payload": {
+        "$expect": {
+          "$value": "",
+          "$assert": "",
+          "$log": ""
+        },
+        "$save": {},
+        "$waitFor": {
+          "$value": "",
+          "$log": ""
+        }
       },
-      "expect": {
-        "status": {
-          "value": 200,
-          "assert": "equal",
-          "log": "health status should be 200"
-        },
-        "body": {
-          "health": {
-            "v": {
-              "value": 2,
-              "assert": "equal",
-              "log": "service version should be 2"
-            },
-            "self": {
-              "status": {
-                "value": 200,
-                "assert": "equal",
-                "log": "service health status should be 200"
-              }
-            },
-            "dependencies": {
-              "http": {
-                "0": {
-                  "status": {
-                    "value": 200,
-                    "assert": "equal",
-                    "log": "metadata service health status should be 200"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    {
-      "title": "lego policy can be switched to blacklist",
-      "before": [
-        {
-          "type": "ohcm",
-          "operation": "login",
-          "args": ["rob.tucker"]
-        },
-        {
-          "type": "wait",
-          "operation": "wait",
-          "args":  [0]
-        },
-        {
-          "type": "ohcm",
-          "operation": "configure",
-          "args": [{
-            "default-behavior": "blacklist"
-          }]
-        }
-      ],
-      "after": [
-        {
-          "type": "wait",
-          "operation": "wait",
-          "args": [0]
-        }
-      ],
-      "endpoint": "/api/authorization-service/v1/admin/configure/default-behavior",
-      "type": "http",
-      "action": "get",
-      "headers": {
-        "content-type": "application/json"
-      },
-      "expect": {
-        "status": {
-          "value": 200,
-          "assert": "equal",
-          "log": "it should return a 200 as status"
-        },
-        "text": {
-          "value": "blacklist",
-          "assert": "equal",
-          "log": "default policy should be blacklist after the call"
-        }
-      }
-    },
-    {
-      "skip": true,
-      "title": "lego policy can be switched to whitelist",
-      "before": [
-        {
-          "type": "ohcm",
-          "operation": "login",
-          "args": ["rob.tucker"]
-        },
-        {
-          "type": "ohcm",
-          "operation": "configure",
-          "args": [{
-            "default-behavior": "whitelist"
-          }]
-        }
-      ],
-      "after": [
-        {
-          "type": "wait",
-          "operation": "wait",
-          "args": [0]
-        }
-      ],
-      "endpoint": "/api/authorization-service/v1/admin/configure/default-behavior",
-      "type": "http",
-      "action": "get",
-      "headers": {
-        "content-type": "application/json"
-      },
-
-      "expect": {
-        "status": {
-          "value": 200,
-          "assert": "equal",
-          "log": "it should return a 200 as status"
-        },
-        "text": {
-          "value": "whitelist",
-          "assert": "equal",
-          "log": "default policy should be whitelist after the call"
-        }
-      }
+      "$timeout": 5000,
+      "$after": []
     }
   ]
 }

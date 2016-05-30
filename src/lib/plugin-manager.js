@@ -1,8 +1,8 @@
-const { endpoints, BASE_URL, kafka } = require('./config/constants.json');
 const Promise = require('bluebird');
 
 export default class PluginManager {
   constructor() {
+    this.session = {};
     this.plugins = {};
   }
 

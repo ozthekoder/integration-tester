@@ -9,11 +9,46 @@ export default class Parser {
   }
 
   validate(blueprint) {
-
+    this.validateDesignator(blueprint);
+    this.validateKeys(blueprint);
+    this.validateTypes(blueprint);
+    this.recursive.forEach((key) => { if (key in blueprint && is(blueprint[key]) === 'array') blueprint[key].forEach((item) => this.validate(item))});
+    return true;
   }
 
-  flatten() {
+  flatten(blueprint) {
+    if(!blueprint.$skip) {
+      return this.recursive
+      .map((key) => {
+        if (blueprint[key]) {
+          if(is(blueprint[key]) === 'array') {
+            return blueprint[key]
+            .map((op) => this.flatten(op))
+            .reduce((prev, current) => prev.concat(current), []);
+          }
+          else if (is(blueprint[key]) === 'string') {
+            return [blueprint];
+          }
+        }
+        return [];
+      })
+      .reduce((prev, current) => prev.concat(current), [])
+      .map((op) => {
+        forEachKey(this.recursive, (key) => {
+          if (op[key] && is(op[key]) === 'array') {
+            delete op[key];
+          }
+        });
+        return op;
+      });
+    }
 
+    return [];
+  }
+
+  parse(blueprint) {
+    if(this.validate(blueprint)) return this.flatten(blueprint);
+    throw new ValidationError('Could not parse blueprint');
   }
 
   validateDesignator(blueprint, designator = this.designator) {
@@ -39,7 +74,7 @@ export default class Parser {
   mustHaveKeys(blueprint, keys = this.keys) {
     const { must, defaults } = keys;
 
-    if(must && keys) {
+    if(must && blueprint) {
       let i;
       for(i=0; i< must.length; i++) {
         if(!(must[i] in blueprint)) {
@@ -58,7 +93,7 @@ export default class Parser {
   canHaveKeys(blueprint, keys = this.keys) {
     const { can } = keys;
 
-    if(can && keys) {
+    if(can && blueprint) {
       forEachKey(blueprint, (k) => {
         if(!can.some((key) => k === key)) {
           throw new ValidationError('There is an unrecognized key in the json');
@@ -73,7 +108,7 @@ export default class Parser {
   eitherOrKeys(blueprint, keys = this.keys) {
     const { either_or } = keys;
 
-    if(either_or && keys) {
+    if(either_or && blueprint) {
       const result = either_or.map((pair) => pair.map((key) => (key in blueprint))).reduce((prev, pair) => ( xor(pair) && prev ), true);
       if(!result) {
         throw new ValidationError(`One of the explicit or keys conditions failed`);
@@ -87,7 +122,7 @@ export default class Parser {
   anyKeys(blueprint, keys = this.keys) {
     const { any } = keys;
 
-    if(any && keys) {
+    if(any && blueprint) {
 
       const result = any
       .map((key) => key in blueprint)
@@ -104,7 +139,7 @@ export default class Parser {
   requiredKeys(blueprint, keys = this.keys) {
     const { requires } = keys;
 
-    if(keys && requires) {
+    if(blueprint && requires) {
       const results = requires.map((reqs) => reqs.map((key) => (key in blueprint)));
       const result = results.every((i) => (i.every((k) => k === false) || i.every((k) => k === true)));
       if(!result) {
@@ -117,18 +152,18 @@ export default class Parser {
   }
 
   validateLeafNode(blueprint, keys = this.keys) {
-      const result = this.validateKeys(blueprint, keys);
+    const result = this.validateKeys(blueprint, keys);
 
-      if(!result) {
-        throw new ValidationError(`Leaf node validation failed!`);
-      }
+    if(!result) {
+      throw new ValidationError(`Leaf node validation failed!`);
+    }
     return true;
   }
 
   validateLeafNodes(blueprint, keys = this.keys) {
     const { leaf } = keys;
 
-    if(keys && leaf) {
+    if(blueprint && leaf) {
       if (this.isLeafNode(blueprint)) {
         this.validateLeafNode(blueprint, leaf)
       } else {
@@ -159,13 +194,24 @@ export default class Parser {
     return key.indexOf(this.designator) === 0;
   }
 
-  validateTypes(blueprint) {
-    const keys = Object.keys(blueprint);
-    let i;
-    for(i=0; i<keys.length; i++) {
-      if(keys[i].charAt(0) !== validation.designator) {
-        throw new ValidationError(`Designator character is missing in the ${keys[i]} key.`)
+  validateTypes(blueprint, types = this.types) {
+    forEachKey(blueprint, (key) => {
+      this.validateType(blueprint[key], types[key]);
+    });
+
+    forEachKey(blueprint, (key) => { this.validateTypes(blueprint[key], types[key])});
+    return true;
+  }
+
+  validateType(value, allowed) {
+    if(allowed && is(allowed) === 'string') {
+      allowed = allowed.split('|');
+      const result = allowed.some((type) => type === is(value));
+      if(!result) {
+        throw new ValidationError(`Type validation on key failed!`);
       }
     }
+    forEachKey(value, (key) => { this.validateType(value[key], allowed[key])});
+    return true;
   }
 }

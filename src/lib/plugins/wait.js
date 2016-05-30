@@ -6,10 +6,6 @@ module.exports = class WaitPlugin extends Plugin {
     super('wait');
   }
 
-  initialize() {
-    return Promise.resolve(this);
-  }
-
   wait(seconds) {
     this.context.harness.comment(`Started waiting for ${seconds} seconds...`);
     return new Promise((resolve) => {

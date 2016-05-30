@@ -10,10 +10,6 @@ module.exports = class HttpPlugin extends Plugin {
     super('http');
   }
 
-  initialize() {
-    return Promise.resolve(this);
-  }
-
   get(endpoint, headers = {}) {
     const { session } = this.context;
 

@@ -6,8 +6,12 @@
       "$log": "string",
       "$name": "string",
       "$before": "array",
+      "$beforeEach": "array",
+      "$afterEach": "array",
       "$plugin": "string",
       "$op": "string",
+      "$skip": "boolean",
+      "$halt": "boolean",
       "$ops": "array",
       "$args": "array",
       "$payload": {
@@ -53,9 +57,13 @@
         "$plugin",
         "$op",
         "$ops",
+        "$skip",
+        "$halt",
         "$args",
         "$payload",
         "$before",
+        "$beforeEach",
+        "$afterEach",
         "$after",
         "$timeout"
       ],
@@ -111,8 +119,13 @@
     },
     "recursive": [
       "$before",
-      "$after",
-      "$ops"
-    ]
+      "$op",
+      "$ops",
+      "$after"
+    ],
+    "each": {
+      "before": "$beforeEach",
+      "after": "$afterEach"
+    }
   }
 }

@@ -16,7 +16,6 @@ module.exports = class Reactor {
       this.consumer = this.getConsumer();
       this.producer = this.getProducer();
       this.waitingFor = {};
-      config.topics.forEach((topic) => { _topics[topic] = true });
       this.producer.on('error', (err) => {
         console.log(err);
       });
