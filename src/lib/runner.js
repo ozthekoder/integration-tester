@@ -5,7 +5,7 @@ const WaitPlugin = require('./plugins/wait');
 const { BASE_URL } = require('./config/constants.json');
 
 
-module.exports = class TestRunner {
+export default class Runner {
   constructor(helper) {
     this.helper = helper;
   }

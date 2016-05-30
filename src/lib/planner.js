@@ -1,7 +1,7 @@
 const { endpoints, BASE_URL, kafka } = require('./config/constants.json');
 const Promise = require('bluebird');
 
-module.exports = class TestHelper {
+export default class Planner {
   constructor() {
     this.session = {};
     this.plugins = {};
@@ -18,10 +18,8 @@ module.exports = class TestHelper {
     }
   }
 
-  createTestHarness(tape, tests, cb) {
-    console.log('foo');
-    tape('Integration Tests', (t) => {
-      console.log('bar');
+  createTestHarness(tape, tests, log, cb) {
+    tape(log ? log : 'Planning the operations..', (t) => {
       this.harness = t;
       t.plan(
         tests
@@ -64,31 +62,6 @@ module.exports = class TestHelper {
     return expect;
   }
 
-  createKafkaConfig(topics) {
-    const config = kafka.empty;
-    config.topics = topics;
-    return config;
-  }
-
-  createKafkaMessage(topic, ...messages) {
-    return {
-      topic,
-      messages
-    };
-  }
-
-  registerPlugin(plugin) {
-    if(!this.plugins[plugin.type]) {
-      plugin.register(this);
-      this.plugins[plugin.type] = plugin;
-    }
-  }
-
-  call(plugin, operation, args) {
-    const p = this.plugins[plugin];
-    return p[operation].bind(p, ...args)
-  }
-
   getAllTests(actual, expectation) {
     let tests = [];
 
@@ -124,14 +97,5 @@ module.exports = class TestHelper {
       }
     }
     return count;
-  }
-
-  chainPromises(promises) {
-    return promises.reduce((prev, next) => prev.then(next), Promise.resolve());
-  }
-
-  createURL(endpoint, context = 'internal') {
-    const base = BASE_URL[context];
-    return `${base.protocol}${base.host}:${base.port}${base.path}${endpoint}`;
   }
 };

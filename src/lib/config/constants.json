@@ -1,85 +1,118 @@
 {
-  "kafka": {
-    "default": {
-      "enabled": true,
-      "host": "zookeeper.service.consul",
-      "port": "2181",
-      "actorType": "service",
-      "groupId": "ohcm-integration-tester",
-      "topics": [
-        "ohcm.orgreactor.changes"
+  "validation": {
+    "designator": "$",
+    "types": {
+      "$id": "string",
+      "$log": "string",
+      "$name": "string",
+      "$before": "array",
+      "$plugin": "string",
+      "$op": "string",
+      "$ops": "array",
+      "$args": "array",
+      "$payload": {
+        "$expect": {
+          "$value": "number|string|array|object",
+          "$assert": "string",
+          "$log": "string"
+        },
+        "$save": "number|string|array|object",
+        "$waitFor": {
+          "$value": "number|string|object",
+          "$log": "string"
+        }
+      },
+      "$timeout": "number",
+      "$after": "array"
+    },
+    "keys": {
+      "must": [
+        "$id",
+        "$before",
+        "$after",
+        "$timeout"
       ],
-      "changesTopic": "ohcm.orgreactor.changes",
-      "organizationId": "001"
+      "either_or": [
+        ["$op", "$ops"],
+        ["$args", "$ops"],
+        ["$plugin", "$ops"],
+        ["$payload", "$ops"],
+        ["$timeout", "$ops"]
+      ],
+      "defaults": {
+        "$before": [],
+        "$after": [],
+        "$ops": [],
+        "$args": [],
+        "$timeout": 10000
+      },
+      "can": [
+        "$id",
+        "$log",
+        "$name",
+        "$plugin",
+        "$op",
+        "$ops",
+        "$args",
+        "$payload",
+        "$before",
+        "$after",
+        "$timeout"
+      ],
+      "requires": [
+        [
+          "$timeout",
+          "$op",
+          "$args",
+          "$payload",
+          "$plugin"
+        ]
+      ],
+      "children": {
+        "$payload": {
+          "can": [
+            "$expect",
+            "$save",
+            "$waitFor"
+          ],
+          "any": [
+            "$expect",
+            "$save",
+            "$waitFor"
+          ],
+          "children": {
+            "$expect": {
+              "leaf": {
+                "must": [
+                  "$value",
+                  "$assert"
+                ],
+                "can": [
+                  "$value",
+                  "$assert",
+                  "$log"
+                ]
+              }
+            },
+            "$waitFor": {
+              "leaf": {
+                "must": [
+                  "$value"
+                ],
+                "can": [
+                  "$value",
+                  "$log"
+                ]
+              }
+            }
+          }
+        }
+      }
     },
-    "test": {
-      "host": "zookeeper.service.consul",
-      "port": "2181",
-      "actorType": "service",
-      "groupId": "ohcm-integration-tester",
-      "topics": [
-        "test"
-      ]
-    },
-    "empty": {
-      "host": "zookeeper.service.consul",
-      "port": "2181",
-      "groupId": "ohcm-integration-tester",
-      "topics": [
-      ]
-    }
-  },
-  "users": [
-    {
-      "username": "adpreserved",
-      "password": "changedToDisable123"
-    },
-    {
-      "username": "rob.tucker",
-      "password": "rob.tucker"
-    }
-  ],
-  "BASE_URL": {
-    "internal": {
-      "protocol": "http://",
-      "host": "router",
-      "port": 80,
-      "path":""
-    },
-    "external": {
-      "protocol": "http://",
-      "host": "localhost",
-      "port": 8000,
-      "path": ""
-    }
-  },
-  "endpoints": {
-    "data":         "/api/persistence-orchestration-service/v0/",
-    "ensureAuth":   "/api/auth/v1/check",
-    "login":        "/api/auth/v1/login",
-    "logout":       "/api/auth/v1/logout",
-    "homeShapeId":  "4f1573a9b5724d2980c9901fbc77edd0",
-    "lookup":       "/api/persistence-model-format-service/v0/m/",
-    "media":        "/api/persistence-media-service/v0",
-    "metadata":     "/api/metadata_service/v1/metadata/",
-    "rule": {
-      "_exec":      "/api/rule/v0/_exec",
-      "scripts":    "/api/rule/v0/scripts/"
-    },
-    "search":       "/api/persistence-search-service/v0/",
-    "substitution": "/api/url_substitution/v0/resolve-tag/",
-    "workflow":     "/api/workflow/v0/instances",
-
-    "hubble":       "/api/hubble_service/v1/hubble/",
-    "dnaPath":      "/api/ohcm-metadata-dna-service/v1/metadata/runtime-view/",
-    "dnaTypePath":  "/api/ohcm-metadata-dna-service/v1/metadata/summary-view/0/",
-    "almDiff":    "/api/alm/v1/diff/",
-    "almResolve":   "/api/alm/v1/resolve/",
-    "almUserMask":  "/api/alm/v1/setMask/",
-    "maskPath":     "/api/mini-apps/v0/selection/",
-    "authorization": "/api/authorization-service/v1/",
-    "authorize": "/api/authorization-service/v1/authorize",
-    "auth_admin": "/api/authorization-service/v1/admin/",
-    "auth_config": "/api/authorization-service/v1/admin/configure"
+    "recursive": [
+      "$before",
+      "$after",
+      "$ops"
+    ]
   }
 }

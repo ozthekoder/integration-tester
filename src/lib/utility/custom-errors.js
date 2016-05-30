@@ -19,8 +19,15 @@ class PluginNotFoundError extends ExtendableError {
   }
 }
 
+class ValidationError extends ExtendableError {
+  constructor(m) {
+    super(m);
+  }
+}
+
 module.exports = {
   PluginOrderError,
+  ValidationError,
   PluginNotFoundError,
   ExtendableError
 }
