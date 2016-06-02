@@ -1,3 +1,4 @@
+import defaults from '../config/config.json';
 const is =  (function toType(global) {
   return function(obj) {
     if (obj === global) {
@@ -57,12 +58,12 @@ const generateAssertions = (json, path='payload') => {
 const getAllAssertions = (actual, expectation) => {
   let tests = [];
 
-  if (expectation.assert && expectation.value) {
+  if (expectation.$assert && expectation.$value) {
     tests.push({
-      expectation: expectation.value,
+      expectation: expectation.$value,
       actual: actual,
-      assertion: expectation.assert,
-      log: expectation.log
+      assertion: expectation.$assert,
+      log: expectation.$log
     });
   } else {
     const keys = Object.keys(expectation);
@@ -78,7 +79,7 @@ const getAllAssertions = (actual, expectation) => {
 const countAssertions = (obj) => {
   let count = 0;
 
-  if (obj.assert && obj.value) {
+  if (obj.$assert && obj.$value) {
     ++count;
   } else {
     const keys = Object.keys(obj);
@@ -91,12 +92,19 @@ const countAssertions = (obj) => {
   return count;
 };
 
+const createURL = (endpoint, config = defaults.plugins.http) => {
+  const { host, port, path } = config;
+
+  console.log(`http://${host}:${port}${path}`);
+  return `http://${host}:${port}${path}${endpoint}`;
+}
 
 export {
   is,
   forEachKey,
   xor,
   isJsonSafePrimitive,
+  createURL,
   generateAssertions,
   getAllAssertions,
   countAssertions

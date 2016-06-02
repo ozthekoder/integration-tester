@@ -1,7 +1,6 @@
 import uuid from 'uuid';
 import { is, forEachKey, xor } from './utility';
 import { ValidationError } from './utility/custom-errors';
-import { validation } from './config/constants.json';
 
 export default class Parser {
   constructor(validation) {
@@ -12,12 +11,14 @@ export default class Parser {
     this.validateDesignator(blueprint);
     this.validateKeys(blueprint);
     this.validateTypes(blueprint);
-    this.recursive.forEach((key) => { if (key in blueprint && is(blueprint[key]) === 'array') blueprint[key].forEach((item) => this.validate(item))});
+    [...this.recursive, ...this.each.before, ...this.each.after].forEach((key) => { if (key in blueprint && is(blueprint[key]) === 'array') blueprint[key].forEach((item) => this.validate(item))});
     return true;
   }
 
   flatten(blueprint) {
     if(!blueprint.$skip) {
+      this.addEachOps(blueprint)
+      const toRemove = [...this.recursive, ...this.each.before, ...this.each.after];
       return this.recursive
       .map((key) => {
         if (blueprint[key]) {
@@ -34,7 +35,7 @@ export default class Parser {
       })
       .reduce((prev, current) => prev.concat(current), [])
       .map((op) => {
-        forEachKey(this.recursive, (key) => {
+        toRemove.forEach((key) => {
           if (op[key] && is(op[key]) === 'array') {
             delete op[key];
           }
@@ -44,6 +45,28 @@ export default class Parser {
     }
 
     return [];
+  }
+
+  addEachOps(blueprint) {
+    const b = Object.assign({}, blueprint);
+    const { $beforeEach, $afterEach } = b;
+    const toRemove = [...this.each.before, ...this.each.after];
+
+    toRemove.forEach((key) => {
+      delete blueprint[key];
+    });
+
+    if (($beforeEach && $afterEach) &&
+        ($beforeEach.length + $afterEach.length)) {
+      const ops = this.getOps(b);
+    blueprint.$ops = ops
+    .map((op) =>[...$beforeEach, op, ...$afterEach])
+    .reduce((prev, current) =>  prev.concat(current), []);
+    }
+  }
+
+  getOps(blueprint) {
+    return blueprint.$op ? [blueprint] : blueprint.$ops;
   }
 
   parse(blueprint) {
@@ -67,13 +90,28 @@ export default class Parser {
     this.anyKeys(blueprint, keys);
     this.eitherOrKeys(blueprint, keys);
     this.requiredKeys(blueprint, keys);
-    this.validateLeafNodes(blueprint, keys);
+    //this.validateLeafNodes(blueprint, keys);
     return true;
   }
 
-  mustHaveKeys(blueprint, keys = this.keys) {
-    const { must, defaults } = keys;
+  generateDefault(type) {
+    if (type) {
+      switch(type) {
+        case '$uuid':
+          return uuid.v4();
+        break;
+        default:
+          return '';
+        break;
+      }
+    }
 
+    return '';
+  }
+
+  mustHaveKeys(blueprint, keys = this.keys) {
+    let { must, defaults } = keys;
+    defaults = defaults || {};
     if(must && blueprint) {
       let i;
       for(i=0; i< must.length; i++) {
@@ -81,12 +119,24 @@ export default class Parser {
           if(!(must[i] in defaults)) {
             throw new ValidationError(`required key ${must[i]} was not found in the json`);
           }
-          blueprint[must[i]] = defaults[must[i]];
+          if (!this.isDesignatedKey(defaults[must[i]])) {
+            blueprint[must[i]] = defaults[must[i]];
+          } else {
+            blueprint[must[i]] = this.generateDefault(defaults[must[i]]);
+          }
         }
       }
     }
 
-    forEachKey(keys.children, (key) => this.mustHaveKeys(blueprint[key], keys.children[key]));
+    if (keys.children) {
+      Object
+      .keys(keys.children)
+      .filter(this.isDesignatedKey.bind(this))
+      .filter((k) => k in blueprint)
+      .forEach((k) => {
+        this.mustHaveKeys(blueprint[k], keys.children[k])
+      });
+    }
     return true;
   }
 
@@ -100,8 +150,14 @@ export default class Parser {
         }
       });
     }
+    if (keys.children) {
 
-    forEachKey(keys.children, (key) => this.canHaveKeys(blueprint[key], keys.children[key]));
+      Object
+      .keys(keys.children)
+      .filter(this.isDesignatedKey.bind(this))
+      .filter((k) => k in blueprint)
+      .forEach((k) => this.canHaveKeys(blueprint[k], keys.children[k]));
+    }
     return true;
   }
 
@@ -114,8 +170,14 @@ export default class Parser {
         throw new ValidationError(`One of the explicit or keys conditions failed`);
       }
     }
+    if (keys.children) {
 
-    forEachKey(keys.children, (key) => this.eitherOrKeys(blueprint[key], keys.children[key]));
+      Object
+      .keys(keys.children)
+      .filter(this.isDesignatedKey.bind(this))
+      .filter((k) => k in blueprint)
+      .forEach((k) => this.eitherOrKeys(blueprint[k], keys.children[k]));
+    }
     return true;
   }
 
@@ -131,8 +193,14 @@ export default class Parser {
         throw new ValidationError(`One of any key conditions failed`);
       }
     }
+    if (keys.children) {
 
-    forEachKey(keys.children, (key) => this.anyKeys(blueprint[key], keys.children[key]));
+      Object
+      .keys(keys.children)
+      .filter(this.isDesignatedKey.bind(this))
+      .filter((k) => k in blueprint)
+      .forEach((k) => this.anyKeys(blueprint[k], keys.children[k]));
+    }
     return true;
   }
 
@@ -146,7 +214,14 @@ export default class Parser {
         throw new ValidationError(`One of the required keys do not exist on the object`);
       }
     }
-    forEachKey(keys.children, (key) => this.requiredKeys(blueprint[key], keys.children[key]));
+    if (keys.children) {
+
+      Object
+      .keys(keys.children)
+      .filter(this.isDesignatedKey.bind(this))
+      .filter((k) => k in blueprint)
+      .forEach((k) => this.requiredKeys(blueprint[k], keys.children[k]));
+    }
 
     return true;
   }
@@ -172,8 +247,14 @@ export default class Parser {
         });
       }
     }
+    if (keys.children) {
 
-    forEachKey(keys.children, (key) => this.validateLeafNodes(blueprint[key], keys.children[key]));
+      Object
+      .keys(keys.children)
+      .filter(this.isDesignatedKey.bind(this))
+      .filter((k) => k in blueprint)
+      .forEach((k) => this.validateLeafNodes(blueprint[k], keys.children[k]));
+    }
 
     return true;
   }
@@ -191,15 +272,25 @@ export default class Parser {
   }
 
   isDesignatedKey(key) {
-    return key.indexOf(this.designator) === 0;
+    if(is(key) === 'string'){
+      return key.indexOf(this.designator) === 0;
+    }
+
+    return false;
   }
 
   validateTypes(blueprint, types = this.types) {
-    forEachKey(blueprint, (key) => {
-      this.validateType(blueprint[key], types[key]);
-    });
+    if(blueprint) {
+      Object
+      .keys(blueprint)
+      .filter(this.isDesignatedKey.bind(this))
+      .forEach((key) => this.validateType(blueprint[key], types[key]));
 
-    forEachKey(blueprint, (key) => { this.validateTypes(blueprint[key], types[key])});
+      Object
+      .keys(blueprint)
+      .filter(this.isDesignatedKey.bind(this))
+      .forEach((key) => this.validateTypes(blueprint[key], types[key]));
+    }
     return true;
   }
 
@@ -211,7 +302,11 @@ export default class Parser {
         throw new ValidationError(`Type validation on key failed!`);
       }
     }
-    forEachKey(value, (key) => { this.validateType(value[key], allowed[key])});
+      Object
+      .keys(value)
+      .filter(this.isDesignatedKey.bind(this))
+      .filter((k) => k in allowed)
+      .forEach((key) => this.validateTypes(value[key], allowed[key]));
     return true;
   }
 }

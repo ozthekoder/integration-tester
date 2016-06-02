@@ -20,7 +20,7 @@
           "$assert": "string",
           "$log": "string"
         },
-        "$save": "number|string|array|object",
+        "$save": "string|object",
         "$waitFor": {
           "$value": "number|string|object",
           "$log": "string"
@@ -34,7 +34,8 @@
         "$id",
         "$before",
         "$after",
-        "$timeout"
+        "$beforeEach",
+        "$afterEach"
       ],
       "either_or": [
         ["$op", "$ops"],
@@ -44,9 +45,12 @@
         ["$timeout", "$ops"]
       ],
       "defaults": {
+        "$id": "$uuid",
         "$before": [],
         "$after": [],
         "$ops": [],
+        "$beforeEach": [],
+        "$afterEach": [],
         "$args": [],
         "$timeout": 10000
       },
@@ -124,8 +128,8 @@
       "$after"
     ],
     "each": {
-      "before": "$beforeEach",
-      "after": "$afterEach"
+      "before": [ "$beforeEach" ],
+      "after": [ "$afterEach" ]
     }
   }
 }

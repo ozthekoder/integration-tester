@@ -1,0 +1,20 @@
+{
+  "$plugin_name": "kafka",
+  "publish" : {
+    "payload": "object"
+  },
+  "subscribe" : {
+    "topic" : "string",
+    "waitFor": "string|object",
+    "parse": "boolean"
+  },
+  "createTopics" : {
+    "topics": "array"
+  },
+  "addTopicsToConsumer" : {
+    "topics": "array"
+  },
+  "addTopicsToConsumer" : {
+    "topics": "array"
+  }
+}

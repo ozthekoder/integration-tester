@@ -4,6 +4,7 @@ export default class PluginManager {
   constructor() {
     this.session = {};
     this.plugins = {};
+    this.saved = {};
   }
 
   registerPlugin(plugin) {
@@ -13,8 +14,15 @@ export default class PluginManager {
     }
   }
 
+  initializePlugins() {
+    const initCalls = Object
+    .keys(this.plugins)
+    .map((plugin) => this.plugins[plugin].initialize());
+    return Promise.all(initCalls);
+  }
+
   execute(plugin, operation, args) {
     const p = this.plugins[plugin];
-    return p[operation].bind(p, ...args)
+    return p[operation].call(p, ...args)
   }
 };

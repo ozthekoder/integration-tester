@@ -1,4 +1,6 @@
+import Promise from 'bluebird';
 
-export function chain (promises) {
+module.exports = function(promises) {
+  console.log(promises);
   return promises.reduce((prev, next) => prev.then(next), Promise.resolve());
-}
+};

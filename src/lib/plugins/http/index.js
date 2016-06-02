@@ -1,13 +1,20 @@
 const superagent = require('superagent');
 const saaspromised = require('superagent-as-promised');
-const Plugin = require('./plugin');
+import { createURL } from '../../utility';
+const Plugin = require('../plugin');
 const Promise = require('bluebird');
+const i = require('./interface.json');
 
 saaspromised(superagent);
 
 module.exports = class HttpPlugin extends Plugin {
   constructor() {
     super('http');
+    this.interface = i;
+  }
+
+  initialize() {
+    return Promise.resolve(this);
   }
 
   get(endpoint, headers = {}) {
@@ -22,7 +29,7 @@ module.exports = class HttpPlugin extends Plugin {
     }
 
     return superagent
-    .get(`${this.context.createURL(endpoint)}`)
+    .get(`${createURL(endpoint)}`)
     .set(headers);
   }
 
@@ -38,7 +45,7 @@ module.exports = class HttpPlugin extends Plugin {
     }
 
     return superagent
-    .post(`${this.context.createURL(endpoint)}`)
+    .post(`${createURL(endpoint)}`)
     .set(headers)
     .send(body);
   }
@@ -55,7 +62,7 @@ module.exports = class HttpPlugin extends Plugin {
     }
 
     return superagent
-    .put(`${this.context.createURL(endpoint)}`)
+    .put(`${createURL(endpoint)}`)
     .set(headers)
     .send(body);
 
@@ -72,7 +79,7 @@ module.exports = class HttpPlugin extends Plugin {
     }
 
     return superagent
-    .del(`${this.context.createURL(endpoint)}`)
+    .del(`${createURL(endpoint)}`)
     .set(headers);
   }
 }

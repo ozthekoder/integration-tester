@@ -6,7 +6,7 @@ import test1 from '../data/test1.json';
 import test2 from '../data/test2.json';
 import test3 from '../data/test3.json';
 
-let parser, json1, json2, json3, json4, json5, json6, json7, json8, json9, json10, json11, json12;
+let parser, json1, json2, json3, json4, json5, json6, json7, json8, json9, json10, json11, json12, json13;
 describe('Parser Class', () => {
 
   beforeEach(() => {
@@ -227,145 +227,87 @@ describe('Parser Class', () => {
     };
 
     json11 = {
-      "$before": [
+      "$beforeEach": [
         {
-          "$before": [
-            {
-              "$before": [],
-              "$op": "0",
-              "$after": []
-            },
-            {
-              "$before": [],
-              "$ops": [
-                {
-                  "$before": [],
-                  "$op": "1",
-                  "$after": []
-                }
-              ],
-              "$after": [
-                {
-                  "$before": [],
-                  "$op": "2",
-                  "$after": []
-                }
-              ]
-            }
-          ],
-          "$op": "3",
-          "$after": [
-            {
-              "$before": [],
-              "$op": "4",
-              "$after": []
-            }
-          ]
-        },
-        {
-          "$before": [
-            {
-              "$before": [],
-              "$op": "5",
-              "$after": []
-            }
-          ],
-          "$ops": [
-            {
-              "$before": [],
-              "$op": "6",
-              "$after": []
-            }
-          ],
-          "$after": [
-            {
-              "$before": [],
-              "$op": "7",
-              "$after": []
-            }
-          ]
-        }
-      ],
-      "$ops": [
-        {
-          "$before": [
-            {
-              "$before": [],
-              "$op": "8",
-              "$after": []
-            }
-          ],
-          "$op": "9",
-          "$after": [
-            {
-              "$before": [],
-              "$op": "10",
-              "$after": []
-            }
-          ]
-        },
-        {
+          "$beforeEach": [],
+          "$afterEach": [],
           "$before": [],
-          "$op": "11",
-          "$after": [
-            {
-              "$before": [],
-              "$op": "12",
-              "$after": []
-            }
-          ]
-        },
-        {
-          "$before": [
-            {
-              "$before": [],
-              "$op": "13",
-              "$after": []
-            }
-          ],
-          "$op": "14",
-          "$after": [
-            {
-              "$before": [],
-              "$op": "15",
-              "$after": []
-            }
-          ]
-        }
-      ],
-      "$after": [
-        {
-          "$before": [],
-          "$ops": [
-            {
-              "$before": [],
-              "$op": "16",
-              "$after": []
-            },
-            {
-              "$before": [],
-              "$op": "17",
-              "$after": []
-            }
-          ],
+          "$op": "be1",
           "$after": []
         },
         {
+          "$beforeEach": [],
+          "$afterEach": [],
           "$before": [],
-          "$op": "18",
+          "$op": "be2",
+          "$after": []
+        }
+      ],
+      "$afterEach": [
+        {
+          "$beforeEach": [],
+          "$afterEach": [],
+          "$before": [],
+          "$op": "ae1",
+          "$after": []
+        },
+        {
+          "$beforeEach": [],
+          "$afterEach": [],
+          "$before": [],
+          "$op": "ae2",
+          "$after": []
+        }
+      ],
+      "$before": [
+        {
+          "$beforeEach": [],
+          "$afterEach": [],
+          "$before": [],
+          "$op": "before",
+          "$after": []
+        }
+      ],
+      "$ops": [{
+        "$beforeEach": [],
+        "$afterEach": [],
+        "$before": [],
+        "$op": "op1",
+        "$after": []
+      },
+      {
+        "$beforeEach": [],
+        "$afterEach": [],
+        "$before": [],
+        "$op": "op2",
+        "$after": []
+      }
+      ],
+      "$after": [
+        {
+          "$beforeEach": [],
+          "$afterEach": [],
+          "$before": [],
+          "$op": "after",
           "$after": []
         }
       ]
     };
 
     json12 = {
+      "$beforeEach": [],
+      "$afterEach": [],
       "$before": [
         {
+          "$beforeEach": [],
+          "$afterEach": [],
           "$before": [],
           "$op": "0",
           "$skip": true,
           "$after": [
             {
+              "$beforeEach": [],
+              "$afterEach": [],
               "$before": [],
               "$op": "1",
               "$after": []
@@ -375,6 +317,8 @@ describe('Parser Class', () => {
       ],
       "$ops": [
         {
+          "$beforeEach": [],
+          "$afterEach": [],
           "$before": [],
           "$op": "2",
           "$after": []
@@ -382,12 +326,67 @@ describe('Parser Class', () => {
       ],
       "$after": [
         {
+          "$beforeEach": [],
+          "$afterEach": [],
           "$before": [],
           "$op": "3",
           "$after": []
         }
       ]
     };
+
+    json13 = {
+      "$beforeEach": [
+        {
+          "$beforeEach": [],
+          "$afterEach": [],
+          "$before": [],
+          "$op": "be1",
+          "$after": []
+        },
+        {
+          "$beforeEach": [],
+          "$afterEach": [],
+          "$before": [],
+          "$op": "be2",
+          "$after": []
+        }
+      ],
+      "$afterEach": [
+        {
+          "$beforeEach": [],
+          "$afterEach": [],
+          "$before": [],
+          "$op": "ae1",
+          "$after": []
+        },
+        {
+          "$beforeEach": [],
+          "$afterEach": [],
+          "$before": [],
+          "$op": "ae2",
+          "$after": []
+        }
+      ],
+      "$before": [],
+      "$ops": [
+        {
+          "$beforeEach": [],
+          "$afterEach": [],
+          "$before": [],
+          "$op": "op1",
+          "$after": []
+        },
+        {
+          "$beforeEach": [],
+          "$afterEach": [],
+          "$before": [],
+          "$op": "op2",
+          "$after": []
+        }
+      ],
+      "$after": []
+    }
 
     parser = new Parser(validation);
   });
@@ -431,6 +430,22 @@ describe('Parser Class', () => {
       expect(parser.canHaveKeys.bind(parser, { "foo": "bar" })).to.throw(ValidationError);
     });
   });
+
+  describe('generateDefault method', () => {
+    it('should be defined', () => {
+      expect(parser.generateDefault).to.be.a('function');
+    });
+
+    it('should return empty string if no parameter passed', () => {
+      expect(parser.generateDefault()).to.equal('');
+    });
+
+    it('should return a uuid when $uuid is passed as an argument', () => {
+      expect(parser.generateDefault('$uuid')).to.be.a('string');
+      expect(parser.generateDefault('$uuid').length).to.equal(36)
+    });
+  });
+
 
   describe('mustHaveKeys method', () => {
     it('should be defined', () => {
@@ -617,21 +632,111 @@ describe('Parser Class', () => {
 
     it('should successfully flatten all recursive fields into an array and remove recursive fields from each item', () => {
       const flat = parser.flatten(json11);
-      expect(flat.length).to.equal(19);
-      forEachKey(validation.recursive, (key) => {
-        if(is(json11[key] === 'array')) {
-          flat.forEach((item, index) => expect(key in item).to.equal(false));
-        } else if(is(json11[key]) === 'string') {
-          flat.forEach((item, index) => expect(item[key]).to.equal(index.toString()));
+      expect(flat.length).to.equal(12);
+      expect(flat[0].$op).to.equal('before');
+      expect(flat[11].$op).to.equal('after');
+      flat.forEach((op, i) => {
+        if (op.$op === 'op1' || op.$op === 'op2') {
+          expect(flat[i-1].$op).to.equal('be2');
+          expect(flat[i-2].$op).to.equal('be1');
+          expect(flat[i+1].$op).to.equal('ae1');
+          expect(flat[i+2].$op).to.equal('ae2');
         }
       });
     });
 
-    it('should skip the operaions with $skip: true', () => {
+    it('should skip the operations with $skip: true', () => {
       const flat = parser.flatten(json12);
       expect(flat.length).to.equal(2);
     });
   });
+
+  describe('addEachOps method', () => {
+    it('should be defined', () => {
+      expect(parser.addEachOps).to.be.a('function');
+    });
+
+    it('should successfully append/prepend beforeEach and afterEach operations to each of the operations', () => {
+      parser.addEachOps(json13);
+      expect(json13).to.deep.equal({
+        "$before": [],
+        "$ops": [
+          {
+            "$beforeEach": [],
+            "$afterEach": [],
+            "$before": [],
+            "$op": "be1",
+            "$after": []
+          },
+          {
+            "$beforeEach": [],
+            "$afterEach": [],
+            "$before": [],
+            "$op": "be2",
+            "$after": []
+          },
+          {
+            "$beforeEach": [],
+            "$afterEach": [],
+            "$before": [],
+            "$op": "op1",
+            "$after": []
+          },
+          {
+            "$beforeEach": [],
+            "$afterEach": [],
+            "$before": [],
+            "$op": "ae1",
+            "$after": []
+          },
+          {
+            "$beforeEach": [],
+            "$afterEach": [],
+            "$before": [],
+            "$op": "ae2",
+            "$after": []
+          },
+          {
+            "$beforeEach": [],
+            "$afterEach": [],
+            "$before": [],
+            "$op": "be1",
+            "$after": []
+          },
+          {
+            "$beforeEach": [],
+            "$afterEach": [],
+            "$before": [],
+            "$op": "be2",
+            "$after": []
+          },
+          {
+            "$beforeEach": [],
+            "$afterEach": [],
+            "$before": [],
+            "$op": "op2",
+            "$after": []
+          },
+          {
+            "$beforeEach": [],
+            "$afterEach": [],
+            "$before": [],
+            "$op": "ae1",
+            "$after": []
+          },
+          {
+            "$beforeEach": [],
+            "$afterEach": [],
+            "$before": [],
+            "$op": "ae2",
+            "$after": []
+          }
+        ],
+        "$after": []
+      });
+    });
+  });
+
 
   describe('parse method', () => {
     beforeEach(() => {

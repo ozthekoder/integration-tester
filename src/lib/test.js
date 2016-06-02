@@ -1,24 +1,49 @@
-import KafkaPlugin from './plugins/kafka';
-import TestHelper from './helper';
+import Parser from './parser';
+import { validation } from './config/constants.json';
+const blueprint = {
+  "$id": "0",
+  "$log": "what should be logged",
+  "$before": [],
+  "$after": [],
+  "$beforeEach": [],
+  "$afterEach": [],
+  "$ops": [
+    {
+      "$id": "1",
+      "$log": "what should be logged",
+      "$name": "op1",
+      "$before": [],
+      "$plugin": "wait",
+      "$op": "wait",
+      "$args": [4],
+      "$payload": {
+        "$expect": {},
+        "$waitFor": {},
+        "$save": {}
+      },
+      "$timeout": 5000,
+      "$after": []
+    },
+    {
+      "$id": "2",
+      "$log": "what should be logged",
+      "$name": "op2",
+      "$before": [],
+      "$plugin": "wait",
+      "$op": "wait",
+      "$args": [2],
+      "$payload": {
+        "$expect": {},
+        "$waitFor": {},
+        "$save": {}
+      },
+      "$timeout": 5000,
+      "$after": []
+    }
+  ]
+};
+const parser = new Parser(validation);
 
-const helper = new TestHelper();
-const plugin = new KafkaPlugin();
-helper.registerPlugin(plugin);
+const parsed = parser.parse(blueprint);
 
-plugin.initialize().then(() => {
-  plugin.publish({ topic: 'test', messages: ['bar'] })
-  .then((msg) => {
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
-  plugin.subscribe('test', 'bar')
-  .then((message) => {
-    console.log('success! => ', message);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
-});
+console.log(JSON.stringify(parsed, null, 2));

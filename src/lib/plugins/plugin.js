@@ -1,12 +1,9 @@
-const { PluginOrderError } = require('../utility/custom-errors');
+import { PluginOrderError } from '../utility/custom-errors';
+
 module.exports = class Plugin {
   constructor(type = '', required = []) {
     this.type = type;
     this.required = required;
-  }
-
-  initialize() {
-    return Promise.resolve(this);
   }
 
   register(context) {

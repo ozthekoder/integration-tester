@@ -1,10 +1,12 @@
 const Promise = require('bluebird');
 const Reactor = require('./reactor');
 const Plugin = require('../plugin');
+const i = require('./interface.json');
 
 class KafkaPlugin extends Plugin {
   constructor() {
     super('kafka');
+    this.interface = i;
   }
 
   initialize() {
