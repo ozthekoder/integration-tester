@@ -67,9 +67,11 @@ export default class Runner {
   }
 
   runAssertions(op, payload) {
-    const { $expect } = op.$payload;
-    const tests = getAllAssertions(payload, $expect);
-    tests.forEach(test => this.harness[test.assertion].call(this.harness, test.actual, test.expectation, test.log));
+    if(op.$payload && op.$payload.$expect) {
+      const { $expect } = op.$payload;
+      const tests = getAllAssertions(payload, $expect);
+      tests.forEach(test => this.harness[test.assertion].call(this.harness, test.actual, test.expectation, test.log));
+    }
     return payload;
   }
 

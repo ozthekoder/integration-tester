@@ -100,12 +100,14 @@ var Runner = function () {
     value: function runAssertions(op, payload) {
       var _this4 = this;
 
-      var $expect = op.$payload.$expect;
+      if (op.$payload && op.$payload.$expect) {
+        var $expect = op.$payload.$expect;
 
-      var tests = _get__('getAllAssertions')(payload, $expect);
-      tests.forEach(function (test) {
-        return _this4.harness[test.assertion].call(_this4.harness, test.actual, test.expectation, test.log);
-      });
+        var tests = _get__('getAllAssertions')(payload, $expect);
+        tests.forEach(function (test) {
+          return _this4.harness[test.assertion].call(_this4.harness, test.actual, test.expectation, test.log);
+        });
+      }
       return payload;
     }
   }, {
