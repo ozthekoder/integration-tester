@@ -52,7 +52,7 @@ export default class ApiTester {
   registerNativePlugins(ops) {
     const { plugins } = this.config;
     const pluginsForOps = ops.reduce((prev, current) => {
-      prev[current.$plugin] = true; 
+      prev[current.$plugin] = true;
       return prev;
     }, {});
     Object

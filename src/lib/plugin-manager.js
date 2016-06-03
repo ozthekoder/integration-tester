@@ -25,4 +25,8 @@ export default class PluginManager {
     const p = this.plugins[plugin];
     return p[operation].call(p, ...args)
   }
+
+  saveRefs(refs) {
+    this.saved = Object.assign(this.saved, refs);
+  }
 };

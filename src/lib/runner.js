@@ -3,6 +3,8 @@ import {
   forEachKey,
   xor,
   isJsonSafePrimitive,
+  getReferences,
+  applyReferences,
   generateAssertions,
   getAllAssertions,
   countAssertions
@@ -37,22 +39,23 @@ export default class Runner {
 
   runOperation(op) {
     this.harness.comment(op.$log);
+    op = applyReferences(op);
     let { $args, $op, $plugin, $timeout } = op;
     return new Promise((resolve, reject) => {
-    const result = this.pluginManager.execute($plugin, $op, $args)
-    .catch(this.checkForHTTPError)
-    .then((response) => {
-      this.harness.pass(`${$plugin}.${$op} successfully returned`);
-      console.log(response.body);
-      return response;
-    })
-    .then(this.runAssertions.bind(this, op))
-    .then(resolve)
-    .catch((err) => {
-      reject(err);
-    });
+      const result = this.pluginManager.execute($plugin, $op, $args)
+      .catch(this.checkForHTTPError)
+      .then((response) => {
+        this.harness.pass(`${$plugin}.${$op} successfully completed`);
+        return response;
+      })
+      .then(this.runAssertions.bind(this, op))
+      .then(this.saveRefs.bind(this, op))
+      .then(resolve)
+      .catch((err) => {
+        reject(err);
+      });
 
-    setTimeout(reject.bind(null, new Error('Async Operation timed out')), $timeout);
+      setTimeout(reject.bind(null, new Error('Async Operation timed out')), $timeout);
     });
   }
 
@@ -69,7 +72,17 @@ export default class Runner {
     const { $expect } = op.$payload;
     const tests = getAllAssertions(payload, $expect);
     tests.forEach(test => this.harness[test.assertion].call(this.harness, test.actual, test.expectation, test.log));
-    return true;
+    return payload;
   }
+
+  saveRefs(op, payload) {
+    const { $save } = op.$payload;
+    if($save) {
+      const refs = getReferences(payload, $save);
+      this.pluginManager.saveRefs(refs);
+    }
+    return payload;
+  }
+
 };
 
