@@ -50,13 +50,9 @@ module.exports = function (_get__2) {
       var session = this.context.session;
 
 
-      if (session.cookie) {
-        headers.cookie = session.cookie;
-      }
-
-      if (session.userToken) {
-        headers['x-ohcm-user'] = session.userToken;
-      }
+      Object.keys(session).forEach(function (k) {
+        return headers[k] = session[k];
+      });
 
       return _get__('superagent').get('' + _get__('createURL')(endpoint)).set(headers);
     }
@@ -68,13 +64,9 @@ module.exports = function (_get__2) {
       var session = this.context.session;
 
 
-      if (session.cookie) {
-        headers.cookie = session.cookie;
-      }
-
-      if (session.userToken) {
-        headers['x-ohcm-user'] = session.userToken;
-      }
+      Object.keys(session).forEach(function (k) {
+        return headers[k] = session[k];
+      });
 
       return _get__('superagent').post('' + _get__('createURL')(endpoint)).set(headers).send(body);
     }
@@ -86,13 +78,9 @@ module.exports = function (_get__2) {
       var session = this.context.session;
 
 
-      if (session.cookie) {
-        headers.cookie = session.cookie;
-      }
-
-      if (session.userToken) {
-        headers['x-ohcm-user'] = session.userToken;
-      }
+      Object.keys(session).forEach(function (k) {
+        return headers[k] = session[k];
+      });
 
       return _get__('superagent').put('' + _get__('createURL')(endpoint)).set(headers).send(body);
     }
@@ -102,13 +90,10 @@ module.exports = function (_get__2) {
       var headers = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
       var session = this.context.session;
 
-      if (session.cookie) {
-        headers.cookie = session.cookie;
-      }
 
-      if (session.userToken) {
-        headers['x-ohcm-user'] = session.userToken;
-      }
+      Object.keys(session).forEach(function (k) {
+        return headers[k] = session[k];
+      });
 
       return _get__('superagent').del('' + _get__('createURL')(endpoint)).set(headers);
     }

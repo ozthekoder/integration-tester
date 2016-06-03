@@ -23,7 +23,7 @@ import {
 
 export default class Tester {
   constructor(tests = [], config = defaults) {
-    this.config = config;
+    this.config = Object.assign(defaults, config);
     this.pluginManager = new PluginManager();
     this.tests = tests;
     this.runner = new Runner(this.pluginManager);

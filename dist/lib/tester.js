@@ -66,7 +66,7 @@ var Tester = function () {
 
     _classCallCheck(this, Tester);
 
-    this.config = config;
+    this.config = Object.assign(_get__('defaults'), config);
     this.pluginManager = new (_get__('PluginManager'))();
     this.tests = tests;
     this.runner = new (_get__('Runner'))(this.pluginManager);

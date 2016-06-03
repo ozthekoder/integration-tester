@@ -20,13 +20,9 @@ module.exports = class HttpPlugin extends Plugin {
   get(endpoint, headers = {}) {
     const { session } = this.context;
 
-    if (session.cookie) {
-      headers.cookie = session.cookie;
-    }
-
-    if (session.userToken) {
-      headers['x-ohcm-user'] = session.userToken;
-    }
+    Object
+    .keys(session)
+    .forEach((k) => headers[k] = session[k]);
 
     return superagent
     .get(`${createURL(endpoint)}`)
@@ -36,13 +32,9 @@ module.exports = class HttpPlugin extends Plugin {
   post(endpoint, headers = {}, body = {}) {
     const { session } = this.context;
 
-    if (session.cookie) {
-      headers.cookie = session.cookie;
-    }
-
-    if (session.userToken) {
-      headers['x-ohcm-user'] = session.userToken;
-    }
+    Object
+    .keys(session)
+    .forEach((k) => headers[k] = session[k]);
 
     return superagent
     .post(`${createURL(endpoint)}`)
@@ -53,13 +45,9 @@ module.exports = class HttpPlugin extends Plugin {
   put(endpoint, headers = {}, body = {}) {
     const { session } = this.context;
 
-    if (session.cookie) {
-      headers.cookie = session.cookie;
-    }
-
-    if (session.userToken) {
-      headers['x-ohcm-user'] = session.userToken;
-    }
+    Object
+    .keys(session)
+    .forEach((k) => headers[k] = session[k]);
 
     return superagent
     .put(`${createURL(endpoint)}`)
@@ -70,13 +58,10 @@ module.exports = class HttpPlugin extends Plugin {
 
   delete(endpoint, headers = {}) {
     const { session } = this.context;
-    if (session.cookie) {
-      headers.cookie = session.cookie;
-    }
 
-    if (session.userToken) {
-      headers['x-ohcm-user'] = session.userToken;
-    }
+    Object
+    .keys(session)
+    .forEach((k) => headers[k] = session[k]);
 
     return superagent
     .del(`${createURL(endpoint)}`)
