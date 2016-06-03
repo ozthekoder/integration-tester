@@ -1,0 +1,69 @@
+{
+  "glossary": {
+    "title": {
+      "value": "example glossary",
+      "assert": "equal",
+      "log": "payload.glossary.title should be example glossary"
+    },
+    "GlossDiv": {
+      "title": {
+        "value": "S",
+        "assert": "equal",
+        "log": "payload.glossary.GlossDiv.title should be S"
+      },
+      "GlossList": {
+        "GlossEntry": {
+          "ID": {
+            "value": "SGML",
+            "assert": "equal",
+            "log": "payload.glossary.GlossDiv.GlossList.GlossEntry.ID should be SGML"
+          },
+          "SortAs": {
+            "value": "SGML",
+            "assert": "equal",
+            "log": "payload.glossary.GlossDiv.GlossList.GlossEntry.SortAs should be SGML"
+          },
+          "GlossTerm": {
+            "value": "Standard Generalized Markup Language",
+            "assert": "equal",
+            "log": "payload.glossary.GlossDiv.GlossList.GlossEntry.GlossTerm should be Standard Generalized Markup Language"
+          },
+          "Acronym": {
+            "value": "SGML",
+            "assert": "equal",
+            "log": "payload.glossary.GlossDiv.GlossList.GlossEntry.Acronym should be SGML"
+          },
+          "Abbrev": {
+            "value": "ISO 8879:1986",
+            "assert": "equal",
+            "log": "payload.glossary.GlossDiv.GlossList.GlossEntry.Abbrev should be ISO 8879:1986"
+          },
+          "GlossDef": {
+            "para": {
+              "value": "A meta-markup language, used to create markup languages such as DocBook.",
+              "assert": "equal",
+              "log": "payload.glossary.GlossDiv.GlossList.GlossEntry.GlossDef.para should be A meta-markup language, used to create markup languages such as DocBook."
+            },
+            "GlossSeeAlso": {
+              "0": {
+                "value": "GML",
+                "assert": "equal",
+                "log": "payload.glossary.GlossDiv.GlossList.GlossEntry.GlossDef.GlossSeeAlso.0 should be GML"
+              },
+              "1": {
+                "value": "XML",
+                "assert": "equal",
+                "log": "payload.glossary.GlossDiv.GlossList.GlossEntry.GlossDef.GlossSeeAlso.1 should be XML"
+              }
+            }
+          },
+          "GlossSee": {
+            "value": "markup",
+            "assert": "equal",
+            "log": "payload.glossary.GlossDiv.GlossList.GlossEntry.GlossSee should be markup"
+          }
+        }
+      }
+    }
+  }
+}

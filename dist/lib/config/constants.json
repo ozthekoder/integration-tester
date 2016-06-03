@@ -1,0 +1,135 @@
+{
+  "validation": {
+    "designator": "$",
+    "types": {
+      "$id": "string",
+      "$log": "string",
+      "$name": "string",
+      "$before": "array",
+      "$beforeEach": "array",
+      "$afterEach": "array",
+      "$plugin": "string",
+      "$op": "string",
+      "$skip": "boolean",
+      "$halt": "boolean",
+      "$ops": "array",
+      "$args": "array",
+      "$payload": {
+        "$expect": {
+          "$value": "number|string|array|object",
+          "$assert": "string",
+          "$log": "string"
+        },
+        "$save": "string|object",
+        "$waitFor": {
+          "$value": "number|string|object",
+          "$log": "string"
+        }
+      },
+      "$timeout": "number",
+      "$after": "array"
+    },
+    "keys": {
+      "must": [
+        "$id",
+        "$before",
+        "$after",
+        "$beforeEach",
+        "$afterEach"
+      ],
+      "either_or": [
+        ["$op", "$ops"],
+        ["$args", "$ops"],
+        ["$plugin", "$ops"],
+        ["$payload", "$ops"],
+        ["$timeout", "$ops"]
+      ],
+      "defaults": {
+        "$id": "$uuid",
+        "$before": [],
+        "$after": [],
+        "$ops": [],
+        "$beforeEach": [],
+        "$afterEach": [],
+        "$args": [],
+        "$timeout": 10000
+      },
+      "can": [
+        "$id",
+        "$log",
+        "$name",
+        "$plugin",
+        "$op",
+        "$ops",
+        "$skip",
+        "$halt",
+        "$args",
+        "$payload",
+        "$before",
+        "$beforeEach",
+        "$afterEach",
+        "$after",
+        "$timeout"
+      ],
+      "requires": [
+        [
+          "$timeout",
+          "$op",
+          "$args",
+          "$payload",
+          "$plugin"
+        ]
+      ],
+      "children": {
+        "$payload": {
+          "can": [
+            "$expect",
+            "$save",
+            "$waitFor"
+          ],
+          "any": [
+            "$expect",
+            "$save",
+            "$waitFor"
+          ],
+          "children": {
+            "$expect": {
+              "leaf": {
+                "must": [
+                  "$value",
+                  "$assert"
+                ],
+                "can": [
+                  "$value",
+                  "$assert",
+                  "$log"
+                ]
+              }
+            },
+            "$waitFor": {
+              "leaf": {
+                "must": [
+                  "$value"
+                ],
+                "can": [
+                  "$value",
+                  "$log"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "recursive": [
+      "$before",
+      "$op",
+      "$ops",
+      "$after"
+    ],
+    "each": {
+      "before": [ "$beforeEach" ],
+      "after": [ "$afterEach" ]
+    }
+  }
+}

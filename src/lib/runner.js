@@ -51,9 +51,7 @@ export default class Runner {
       .then(this.runAssertions.bind(this, op))
       .then(this.saveRefs.bind(this, op))
       .then(resolve)
-      .catch((err) => {
-        reject(err);
-      });
+      .catch(reject);
 
       setTimeout(reject.bind(null, new Error('Async Operation timed out')), $timeout);
     });

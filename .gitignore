@@ -3,7 +3,6 @@
 ### CUSTOM ENTRIES ###
 # local .npm cache
 /.npm
-dist/*
 !dist/.gitkeep
 # local npmrc files
 /npmrc
