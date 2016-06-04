@@ -14,13 +14,13 @@ var Promise = require('bluebird');
 var Plugin = require('../plugin');
 var i = require('./interface.json');
 
-module.exports = function (_get__2) {
+var WaitPlugin = function (_get__2) {
   _inherits(WaitPlugin, _get__2);
 
   function WaitPlugin() {
     _classCallCheck(this, WaitPlugin);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(WaitPlugin).call(this, 'wait'));
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(WaitPlugin).call(this));
 
     _this.interface = _get__('i');
     return _this;
@@ -42,6 +42,11 @@ module.exports = function (_get__2) {
 
   return WaitPlugin;
 }(_get__('Plugin'));
+
+;
+
+_get__('WaitPlugin').type = 'wait';
+module.exports = _get__('WaitPlugin');
 var _RewiredData__ = {};
 var _RewireAPI__ = {};
 
@@ -77,6 +82,9 @@ function _get_original__(variableName) {
 
     case 'Plugin':
       return Plugin;
+
+    case 'WaitPlugin':
+      return WaitPlugin;
   }
 
   return undefined;

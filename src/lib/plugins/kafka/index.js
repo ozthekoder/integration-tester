@@ -4,8 +4,9 @@ const Plugin = require('../plugin');
 const i = require('./interface.json');
 
 class KafkaPlugin extends Plugin {
-  constructor() {
-    super('kafka');
+  constructor(config) {
+    super();
+    this.config = config;
     this.interface = i;
   }
 
@@ -57,4 +58,5 @@ class KafkaPlugin extends Plugin {
   }
 }
 
+KafkaPlugin.type = 'kafka';
 module.exports = KafkaPlugin;

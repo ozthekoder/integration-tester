@@ -18,11 +18,12 @@ var i = require('./interface.json');
 var KafkaPlugin = function (_get__2) {
   _inherits(KafkaPlugin, _get__2);
 
-  function KafkaPlugin() {
+  function KafkaPlugin(config) {
     _classCallCheck(this, KafkaPlugin);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(KafkaPlugin).call(this, 'kafka'));
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(KafkaPlugin).call(this));
 
+    _this.config = config;
     _this.interface = _get__('i');
     return _this;
   }
@@ -88,6 +89,7 @@ var KafkaPlugin = function (_get__2) {
   return KafkaPlugin;
 }(_get__('Plugin'));
 
+_get__('KafkaPlugin').type = 'kafka';
 module.exports = _get__('KafkaPlugin');
 var _RewiredData__ = {};
 var _RewireAPI__ = {};

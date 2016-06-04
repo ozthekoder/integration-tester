@@ -1,10 +1,5 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.__RewireAPI__ = exports.__ResetDependency__ = exports.__set__ = exports.__Rewire__ = exports.__GetDependency__ = exports.__get__ = undefined;
-
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -19,21 +14,21 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var superagent = require('superagent');
 var saaspromised = require('superagent-as-promised');
-
 var Plugin = require('../plugin');
 var Promise = require('bluebird');
 var i = require('./interface.json');
 
 _get__('saaspromised')(_get__('superagent'));
 
-module.exports = function (_get__2) {
+var HttpPlugin = function (_get__2) {
   _inherits(HttpPlugin, _get__2);
 
-  function HttpPlugin() {
+  function HttpPlugin(config) {
     _classCallCheck(this, HttpPlugin);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(HttpPlugin).call(this, 'http'));
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(HttpPlugin).call(this));
 
+    _this.config = config;
     _this.interface = _get__('i');
     return _this;
   }
@@ -54,7 +49,7 @@ module.exports = function (_get__2) {
         return headers[k] = session[k];
       });
 
-      return _get__('superagent').get('' + _get__('createURL')(endpoint)).set(headers);
+      return _get__('superagent').get('' + _get__('createURL')(endpoint, this.config)).set(headers);
     }
   }, {
     key: 'post',
@@ -68,7 +63,7 @@ module.exports = function (_get__2) {
         return headers[k] = session[k];
       });
 
-      return _get__('superagent').post('' + _get__('createURL')(endpoint)).set(headers).send(body);
+      return _get__('superagent').post('' + _get__('createURL')(endpoint, this.config)).set(headers).send(body);
     }
   }, {
     key: 'put',
@@ -82,7 +77,7 @@ module.exports = function (_get__2) {
         return headers[k] = session[k];
       });
 
-      return _get__('superagent').put('' + _get__('createURL')(endpoint)).set(headers).send(body);
+      return _get__('superagent').put('' + _get__('createURL')(endpoint, this.config)).set(headers).send(body);
     }
   }, {
     key: 'delete',
@@ -95,12 +90,17 @@ module.exports = function (_get__2) {
         return headers[k] = session[k];
       });
 
-      return _get__('superagent').del('' + _get__('createURL')(endpoint)).set(headers);
+      return _get__('superagent').del('' + _get__('createURL')(endpoint, this.config)).set(headers);
     }
   }]);
 
   return HttpPlugin;
 }(_get__('Plugin'));
+
+;
+
+_get__('HttpPlugin').type = 'http';
+module.exports = _get__('HttpPlugin');
 var _RewiredData__ = {};
 var _RewireAPI__ = {};
 
@@ -145,6 +145,9 @@ function _get_original__(variableName) {
 
     case 'Plugin':
       return Plugin;
+
+    case 'HttpPlugin':
+      return HttpPlugin;
   }
 
   return undefined;
@@ -215,11 +218,24 @@ function _with__(object) {
   };
 }
 
-exports.__get__ = _get__;
-exports.__GetDependency__ = _get__;
-exports.__Rewire__ = _set__;
-exports.__set__ = _set__;
-exports.__ResetDependency__ = _reset__;
-exports.__RewireAPI__ = _RewireAPI__;
-exports.default = _RewireAPI__;
+var _typeOfOriginalExport = _typeof(module.exports);
+
+function addNonEnumerableProperty(name, value) {
+  Object.defineProperty(module.exports, name, {
+    value: value,
+    enumerable: false,
+    configurable: true
+  });
+}
+
+if ((_typeOfOriginalExport === 'object' || _typeOfOriginalExport === 'function') && Object.isExtensible(module.exports)) {
+  addNonEnumerableProperty('__get__', _get__);
+  addNonEnumerableProperty('__GetDependency__', _get__);
+  addNonEnumerableProperty('__Rewire__', _set__);
+  addNonEnumerableProperty('__set__', _set__);
+  addNonEnumerableProperty('__reset__', _reset__);
+  addNonEnumerableProperty('__ResetDependency__', _reset__);
+  addNonEnumerableProperty('__with__', _with__);
+  addNonEnumerableProperty('__RewireAPI__', _RewireAPI__);
+}
 //# sourceMappingURL=index.js.map

@@ -2,9 +2,9 @@ const Promise = require('bluebird');
 const Plugin = require('../plugin');
 const i = require('./interface.json');
 
-module.exports = class WaitPlugin extends Plugin {
+class WaitPlugin extends Plugin {
   constructor() {
-    super('wait');
+    super();
     this.interface = i;
   }
 
@@ -17,5 +17,7 @@ module.exports = class WaitPlugin extends Plugin {
       setTimeout(resolve.bind(null, seconds), (seconds * 1000));
     });
   }
+};
 
-}
+WaitPlugin.type = 'wait';
+module.exports = WaitPlugin;

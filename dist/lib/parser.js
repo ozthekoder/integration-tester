@@ -39,9 +39,11 @@ var Parser = function () {
       this.validateKeys(blueprint);
       this.validateTypes(blueprint);
       [].concat(_toConsumableArray(this.recursive), _toConsumableArray(this.each.before), _toConsumableArray(this.each.after)).forEach(function (key) {
-        if (key in blueprint && _get__('is')(blueprint[key]) === 'array') blueprint[key].forEach(function (item) {
-          return _this.validate(item);
-        });
+        if (key in blueprint && _get__('is')(blueprint[key]) === 'array') {
+          blueprint[key].forEach(function (item) {
+            return _this.validate(item);
+          });
+        }
       });
       return true;
     }

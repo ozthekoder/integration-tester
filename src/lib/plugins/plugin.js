@@ -1,9 +1,12 @@
 import { PluginOrderError } from '../utility/custom-errors';
 
-module.exports = class Plugin {
-  constructor(type = '', required = []) {
-    this.type = type;
+class Plugin {
+  constructor(required = []) {
     this.required = required;
+  }
+
+  get type() {
+    return this.constructor.type;
   }
 
   register(context) {
@@ -14,4 +17,7 @@ module.exports = class Plugin {
     })
     this.context = context;
   }
-}
+};
+
+Plugin.type = 'generic';
+module.exports = Plugin;

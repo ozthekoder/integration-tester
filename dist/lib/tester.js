@@ -113,7 +113,7 @@ var Tester = function () {
       }).map(function (key) {
         return require(plugins[key].file);
       }).map(function (Plugin) {
-        return new Plugin();
+        return new Plugin(plugins[Plugin.type]);
       }).map(this.registerPlugin.bind(this));
     }
   }, {

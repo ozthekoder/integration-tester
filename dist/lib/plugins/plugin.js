@@ -1,10 +1,5 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.__RewireAPI__ = exports.__ResetDependency__ = exports.__set__ = exports.__Rewire__ = exports.__GetDependency__ = exports.__get__ = undefined;
-
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -13,14 +8,12 @@ var _customErrors = require('../utility/custom-errors');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-module.exports = function () {
+var Plugin = function () {
   function Plugin() {
-    var type = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
-    var required = arguments.length <= 1 || arguments[1] === undefined ? [] : arguments[1];
+    var required = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
 
     _classCallCheck(this, Plugin);
 
-    this.type = type;
     this.required = required;
   }
 
@@ -36,10 +29,20 @@ module.exports = function () {
       });
       this.context = context;
     }
+  }, {
+    key: 'type',
+    get: function get() {
+      return this.constructor.type;
+    }
   }]);
 
   return Plugin;
 }();
+
+;
+
+_get__('Plugin').type = 'generic';
+module.exports = _get__('Plugin');
 var _RewiredData__ = {};
 var _RewireAPI__ = {};
 
@@ -69,6 +72,9 @@ function _get_original__(variableName) {
   switch (variableName) {
     case 'PluginOrderError':
       return _customErrors.PluginOrderError;
+
+    case 'Plugin':
+      return Plugin;
   }
 
   return undefined;
@@ -139,11 +145,24 @@ function _with__(object) {
   };
 }
 
-exports.__get__ = _get__;
-exports.__GetDependency__ = _get__;
-exports.__Rewire__ = _set__;
-exports.__set__ = _set__;
-exports.__ResetDependency__ = _reset__;
-exports.__RewireAPI__ = _RewireAPI__;
-exports.default = _RewireAPI__;
+var _typeOfOriginalExport = _typeof(module.exports);
+
+function addNonEnumerableProperty(name, value) {
+  Object.defineProperty(module.exports, name, {
+    value: value,
+    enumerable: false,
+    configurable: true
+  });
+}
+
+if ((_typeOfOriginalExport === 'object' || _typeOfOriginalExport === 'function') && Object.isExtensible(module.exports)) {
+  addNonEnumerableProperty('__get__', _get__);
+  addNonEnumerableProperty('__GetDependency__', _get__);
+  addNonEnumerableProperty('__Rewire__', _set__);
+  addNonEnumerableProperty('__set__', _set__);
+  addNonEnumerableProperty('__reset__', _reset__);
+  addNonEnumerableProperty('__ResetDependency__', _reset__);
+  addNonEnumerableProperty('__with__', _with__);
+  addNonEnumerableProperty('__RewireAPI__', _RewireAPI__);
+}
 //# sourceMappingURL=plugin.js.map

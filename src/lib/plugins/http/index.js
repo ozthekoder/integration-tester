@@ -1,15 +1,16 @@
+import { createURL } from '../../utility';
 const superagent = require('superagent');
 const saaspromised = require('superagent-as-promised');
-import { createURL } from '../../utility';
 const Plugin = require('../plugin');
 const Promise = require('bluebird');
 const i = require('./interface.json');
 
 saaspromised(superagent);
 
-module.exports = class HttpPlugin extends Plugin {
-  constructor() {
-    super('http');
+class HttpPlugin extends Plugin {
+  constructor(config) {
+    super();
+    this.config = config;
     this.interface = i;
   }
 
@@ -25,7 +26,7 @@ module.exports = class HttpPlugin extends Plugin {
     .forEach((k) => headers[k] = session[k]);
 
     return superagent
-    .get(`${createURL(endpoint)}`)
+    .get(`${createURL(endpoint, this.config)}`)
     .set(headers);
   }
 
@@ -37,7 +38,7 @@ module.exports = class HttpPlugin extends Plugin {
     .forEach((k) => headers[k] = session[k]);
 
     return superagent
-    .post(`${createURL(endpoint)}`)
+    .post(`${createURL(endpoint, this.config)}`)
     .set(headers)
     .send(body);
   }
@@ -50,7 +51,7 @@ module.exports = class HttpPlugin extends Plugin {
     .forEach((k) => headers[k] = session[k]);
 
     return superagent
-    .put(`${createURL(endpoint)}`)
+    .put(`${createURL(endpoint, this.config)}`)
     .set(headers)
     .send(body);
 
@@ -64,7 +65,10 @@ module.exports = class HttpPlugin extends Plugin {
     .forEach((k) => headers[k] = session[k]);
 
     return superagent
-    .del(`${createURL(endpoint)}`)
+    .del(`${createURL(endpoint, this.config)}`)
     .set(headers);
   }
-}
+};
+
+HttpPlugin.type = 'http';
+module.exports = HttpPlugin;

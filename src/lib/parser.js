@@ -11,7 +11,12 @@ export default class Parser {
     this.validateDesignator(blueprint);
     this.validateKeys(blueprint);
     this.validateTypes(blueprint);
-    [...this.recursive, ...this.each.before, ...this.each.after].forEach((key) => { if (key in blueprint && is(blueprint[key]) === 'array') blueprint[key].forEach((item) => this.validate(item))});
+    [...this.recursive, ...this.each.before, ...this.each.after]
+    .forEach((key) => {
+      if (key in blueprint && is(blueprint[key]) === 'array') {
+        blueprint[key].forEach((item) => this.validate(item));
+      }
+    });
     return true;
   }
 

@@ -59,7 +59,7 @@ export default class Tester {
     .keys(plugins)
     .filter((plugin) => pluginsForOps[plugin])
     .map((key) => require(plugins[key].file))
-    .map((Plugin) => new Plugin())
+    .map((Plugin) => new Plugin(plugins[Plugin.type]))
     .map(this.registerPlugin.bind(this));
   }
 
