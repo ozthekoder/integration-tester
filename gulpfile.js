@@ -7,19 +7,20 @@ var watchify = require('watchify');
 var babel = require('babelify');
 
 function compile(watch) {
-  var bundler = watchify(browserify('./src/lib/index.js', { debug: true }).transform(babel));
+  var bundler = browserify('./src/lib/index.js', { debug: true }).transform(babel);
 
   function rebundle() {
     bundler.bundle()
-      .on('error', function(err) { console.error(err); this.emit('end'); })
-      .pipe(source('index.js'))
-      .pipe(buffer())
-      .pipe(sourcemaps.init({ loadMaps: true }))
-      .pipe(sourcemaps.write('./'))
-      .pipe(gulp.dest('./dist'));
+    .on('error', function(err) { console.error(err); this.emit('end'); })
+    .pipe(source('index.js'))
+    .pipe(buffer())
+    .pipe(sourcemaps.init({ loadMaps: true }))
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest('./dist'));
   }
 
   if (watch) {
+    bundler = watchify(bundler);
     bundler.on('update', function() {
       console.log('-> bundling...');
       rebundle();
