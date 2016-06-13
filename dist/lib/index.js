@@ -22,6 +22,10 @@ var _plugin = require('./plugins/plugin');
 
 var _plugin2 = _interopRequireDefault(_plugin);
 
+var _utility = require('./utility');
+
+var _utility2 = _interopRequireDefault(_utility);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 module.exports = {
@@ -29,7 +33,8 @@ module.exports = {
   Runner: _get__('Runner'),
   Parser: _get__('Parser'),
   PluginManager: _get__('PluginManager'),
-  Plugin: _get__('Plugin')
+  Plugin: _get__('Plugin'),
+  Utility: _get__('Utility')
 };
 var _RewiredData__ = {};
 var _RewireAPI__ = {};
@@ -72,6 +77,9 @@ function _get_original__(variableName) {
 
     case 'Plugin':
       return _plugin2.default;
+
+    case 'Utility':
+      return _utility2.default;
   }
 
   return undefined;
