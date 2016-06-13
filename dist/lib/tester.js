@@ -3,9 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.__RewireAPI__ = exports.__ResetDependency__ = exports.__set__ = exports.__Rewire__ = exports.__GetDependency__ = exports.__get__ = undefined;
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -62,18 +59,18 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var Tester = function () {
   function Tester() {
     var tests = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
-    var config = arguments.length <= 1 || arguments[1] === undefined ? _get__('defaults') : arguments[1];
+    var config = arguments.length <= 1 || arguments[1] === undefined ? _config2.default : arguments[1];
 
     _classCallCheck(this, Tester);
 
-    this.config = Object.assign(_get__('defaults'), config);
-    this.pluginManager = new (_get__('PluginManager'))();
+    this.config = Object.assign(_config2.default, config);
+    this.pluginManager = new _pluginManager2.default();
     this.tests = tests;
-    this.runner = new (_get__('Runner'))(this.pluginManager);
-    this.parser = new (_get__('Parser'))(_get__('validation'));
+    this.runner = new _runner2.default(this.pluginManager);
+    this.parser = new _parser2.default(_constants.validation);
     this.consoleStream = null;
     this.reportStream = null;
-    this.tapToXUnitConverter = _get__('converter')();
+    this.tapToXUnitConverter = (0, _tapXunit2.default)();
   }
 
   _createClass(Tester, [{
@@ -89,14 +86,14 @@ var Tester = function () {
   }, {
     key: 'console',
     value: function console() {
-      this.consoleStream = _get__('tape').createStream();
+      this.consoleStream = _tape2.default.createStream();
       this.consoleStream.pipe(process.stdout);
     }
   }, {
     key: 'report',
     value: function report() {
-      var writeStream = _get__('fs').createWriteStream(this.config.output.report);
-      this.reportStream = _get__('tape').createStream();
+      var writeStream = _fs2.default.createWriteStream(this.config.output.report);
+      this.reportStream = _tape2.default.createStream();
       this.reportStream.pipe(this.tapToXUnitConverter).pipe(writeStream);
     }
   }, {
@@ -126,7 +123,7 @@ var Tester = function () {
     value: function prepare() {
       var _this2 = this;
 
-      return new (_get__('Promise'))(function (resolve, reject) {
+      return new _bluebird2.default(function (resolve, reject) {
         _this2.tests = Array.isArray(_this2.tests) ? _this2.tests : [_this2.tests];
         var ops = _this2.tests.map(_this2.parser.parse.bind(_this2.parser)).reduce(function (prev, current) {
           return [].concat(_toConsumableArray(prev), _toConsumableArray(current));
@@ -145,7 +142,7 @@ var Tester = function () {
   }, {
     key: 'test',
     value: function test(tests) {
-      return _get__('chain')(tests);
+      return (0, _async2.default)(tests);
     }
   }]);
 
@@ -154,157 +151,3 @@ var Tester = function () {
 
 exports.default = Tester;
 ;
-var _RewiredData__ = {};
-var _RewireAPI__ = {};
-
-(function () {
-  function addPropertyToAPIObject(name, value) {
-    Object.defineProperty(_RewireAPI__, name, {
-      value: value,
-      enumerable: false,
-      configurable: true
-    });
-  }
-
-  addPropertyToAPIObject('__get__', _get__);
-  addPropertyToAPIObject('__GetDependency__', _get__);
-  addPropertyToAPIObject('__Rewire__', _set__);
-  addPropertyToAPIObject('__set__', _set__);
-  addPropertyToAPIObject('__reset__', _reset__);
-  addPropertyToAPIObject('__ResetDependency__', _reset__);
-  addPropertyToAPIObject('__with__', _with__);
-})();
-
-function _get__(variableName) {
-  return _RewiredData__ === undefined || _RewiredData__[variableName] === undefined ? _get_original__(variableName) : _RewiredData__[variableName];
-}
-
-function _get_original__(variableName) {
-  switch (variableName) {
-    case 'defaults':
-      return _config2.default;
-
-    case 'PluginManager':
-      return _pluginManager2.default;
-
-    case 'Runner':
-      return _runner2.default;
-
-    case 'Parser':
-      return _parser2.default;
-
-    case 'validation':
-      return _constants.validation;
-
-    case 'converter':
-      return _tapXunit2.default;
-
-    case 'tape':
-      return _tape2.default;
-
-    case 'fs':
-      return _fs2.default;
-
-    case 'Promise':
-      return _bluebird2.default;
-
-    case 'chain':
-      return _async2.default;
-  }
-
-  return undefined;
-}
-
-function _assign__(variableName, value) {
-  if (_RewiredData__ === undefined || _RewiredData__[variableName] === undefined) {
-    return _set_original__(variableName, value);
-  } else {
-    return _RewiredData__[variableName] = value;
-  }
-}
-
-function _set_original__(variableName, _value) {
-  switch (variableName) {}
-
-  return undefined;
-}
-
-function _update_operation__(operation, variableName, prefix) {
-  var oldValue = _get__(variableName);
-
-  var newValue = operation === '++' ? oldValue + 1 : oldValue - 1;
-
-  _assign__(variableName, newValue);
-
-  return prefix ? newValue : oldValue;
-}
-
-function _set__(variableName, value) {
-  if ((typeof variableName === 'undefined' ? 'undefined' : _typeof(variableName)) === 'object') {
-    Object.keys(variableName).forEach(function (name) {
-      _RewiredData__[name] = variableName[name];
-    });
-  } else {
-    return _RewiredData__[variableName] = value;
-  }
-}
-
-function _reset__(variableName) {
-  delete _RewiredData__[variableName];
-}
-
-function _with__(object) {
-  var rewiredVariableNames = Object.keys(object);
-  var previousValues = {};
-
-  function reset() {
-    rewiredVariableNames.forEach(function (variableName) {
-      _RewiredData__[variableName] = previousValues[variableName];
-    });
-  }
-
-  return function (callback) {
-    rewiredVariableNames.forEach(function (variableName) {
-      previousValues[variableName] = _RewiredData__[variableName];
-      _RewiredData__[variableName] = object[variableName];
-    });
-    var result = callback();
-
-    if (!!result && typeof result.then == 'function') {
-      result.then(reset).catch(reset);
-    } else {
-      reset();
-    }
-
-    return result;
-  };
-}
-
-var _typeOfOriginalExport = typeof Tester === 'undefined' ? 'undefined' : _typeof(Tester);
-
-function addNonEnumerableProperty(name, value) {
-  Object.defineProperty(Tester, name, {
-    value: value,
-    enumerable: false,
-    configurable: true
-  });
-}
-
-if ((_typeOfOriginalExport === 'object' || _typeOfOriginalExport === 'function') && Object.isExtensible(Tester)) {
-  addNonEnumerableProperty('__get__', _get__);
-  addNonEnumerableProperty('__GetDependency__', _get__);
-  addNonEnumerableProperty('__Rewire__', _set__);
-  addNonEnumerableProperty('__set__', _set__);
-  addNonEnumerableProperty('__reset__', _reset__);
-  addNonEnumerableProperty('__ResetDependency__', _reset__);
-  addNonEnumerableProperty('__with__', _with__);
-  addNonEnumerableProperty('__RewireAPI__', _RewireAPI__);
-}
-
-exports.__get__ = _get__;
-exports.__GetDependency__ = _get__;
-exports.__Rewire__ = _set__;
-exports.__set__ = _set__;
-exports.__ResetDependency__ = _reset__;
-exports.__RewireAPI__ = _RewireAPI__;
-//# sourceMappingURL=tester.js.map

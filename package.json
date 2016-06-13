@@ -1,7 +1,7 @@
 {
   "name": "integration-tester",
   "main": "dist/lib/index.js",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "API Test execution tool that can execute async operations in order and run assertion on the payloads.",
   "nyc": {
     "exclude": [
@@ -40,7 +40,6 @@
     "babel-cli": "^6.5.1",
     "babel-istanbul": "^0.8.0",
     "babel-node-debug": "^1.3.0",
-    "babel-plugin-rewire": "^1.0.0-rc-3",
     "babel-preset-es2015": "^6.3.13",
     "babel-register": "^6.4.3",
     "chai": "3.5.0",
