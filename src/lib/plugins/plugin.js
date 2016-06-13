@@ -1,4 +1,4 @@
-import { PluginOrderError } from '../utility/custom-errors';
+const PluginOrderError = require('../utility/custom-errors').PluginOrderError;
 
 class Plugin {
   constructor(required = []) {

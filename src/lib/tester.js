@@ -1,16 +1,17 @@
-import Promise from 'bluebird';
-import glob from 'glob';
-import tape from 'tape';
-import fs from  'fs';
-import converter from 'tap-xunit';
-import PluginManager from './plugin-manager';
-import Runner from './runner';
-import Parser from './parser';
-import chain from './async';
-import defaults from './config/config.json';
-import { validation } from './config/constants.json';
+const Promise = require('bluebird');
+const glob = require('glob');
+const tape = require('tape');
+const fs = require('fs');
+const converter = require('tap-xunit');
+const PluginManager = require('./plugin-manager');
+const Runner = require('./runner');
+const Parser = require('./parser');
+const chain = require('./async');
+const defaults = require('./config/config.json');
+const validation = require('./config/constants.json').validation;
+const Utility = require('./utility');
 
-import {
+const {
   is,
   forEachKey,
   xor,
@@ -18,10 +19,9 @@ import {
   generateAssertions,
   getAllAssertions,
   countAssertions
-} from './utility';
+} = Utility
 
-
-export default class Tester {
+module.exports = class Tester {
   constructor(tests = [], config = defaults) {
     this.config = Object.assign(defaults, config);
     this.pluginManager = new PluginManager();

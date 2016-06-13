@@ -2,9 +2,9 @@
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _customErrors = require('../utility/custom-errors');
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var PluginOrderError = require('../utility/custom-errors').PluginOrderError;
 
 var Plugin = function () {
   function Plugin() {
@@ -22,7 +22,7 @@ var Plugin = function () {
 
       this.required.forEach(function (req) {
         if (!context.plugins[req]) {
-          throw new _customErrors.PluginOrderError('Plugin ' + req + ' is required for ' + _this.type + ' plugin.');
+          throw new PluginOrderError('Plugin ' + req + ' is required for ' + _this.type + ' plugin.');
         }
       });
       this.context = context;

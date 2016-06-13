@@ -1,76 +1,48 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _bluebird = require('bluebird');
-
-var _bluebird2 = _interopRequireDefault(_bluebird);
-
-var _glob = require('glob');
-
-var _glob2 = _interopRequireDefault(_glob);
-
-var _tape = require('tape');
-
-var _tape2 = _interopRequireDefault(_tape);
-
-var _fs = require('fs');
-
-var _fs2 = _interopRequireDefault(_fs);
-
-var _tapXunit = require('tap-xunit');
-
-var _tapXunit2 = _interopRequireDefault(_tapXunit);
-
-var _pluginManager = require('./plugin-manager');
-
-var _pluginManager2 = _interopRequireDefault(_pluginManager);
-
-var _runner = require('./runner');
-
-var _runner2 = _interopRequireDefault(_runner);
-
-var _parser = require('./parser');
-
-var _parser2 = _interopRequireDefault(_parser);
-
-var _async = require('./async');
-
-var _async2 = _interopRequireDefault(_async);
-
-var _config = require('./config/config.json');
-
-var _config2 = _interopRequireDefault(_config);
-
-var _constants = require('./config/constants.json');
-
-var _utility = require('./utility');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Tester = function () {
+var Promise = require('bluebird');
+var glob = require('glob');
+var tape = require('tape');
+var fs = require('fs');
+var converter = require('tap-xunit');
+var PluginManager = require('./plugin-manager');
+var Runner = require('./runner');
+var Parser = require('./parser');
+var chain = require('./async');
+var defaults = require('./config/config.json');
+var validation = require('./config/constants.json').validation;
+var Utility = require('./utility');
+
+var is = Utility.is;
+var forEachKey = Utility.forEachKey;
+var xor = Utility.xor;
+var isJsonSafePrimitive = Utility.isJsonSafePrimitive;
+var generateAssertions = Utility.generateAssertions;
+var getAllAssertions = Utility.getAllAssertions;
+var countAssertions = Utility.countAssertions;
+
+
+module.exports = function () {
   function Tester() {
     var tests = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
-    var config = arguments.length <= 1 || arguments[1] === undefined ? _config2.default : arguments[1];
+    var config = arguments.length <= 1 || arguments[1] === undefined ? defaults : arguments[1];
 
     _classCallCheck(this, Tester);
 
-    this.config = Object.assign(_config2.default, config);
-    this.pluginManager = new _pluginManager2.default();
+    this.config = Object.assign(defaults, config);
+    this.pluginManager = new PluginManager();
     this.tests = tests;
-    this.runner = new _runner2.default(this.pluginManager);
-    this.parser = new _parser2.default(_constants.validation);
+    this.runner = new Runner(this.pluginManager);
+    this.parser = new Parser(validation);
     this.consoleStream = null;
     this.reportStream = null;
-    this.tapToXUnitConverter = (0, _tapXunit2.default)();
+    this.tapToXUnitConverter = converter();
   }
 
   _createClass(Tester, [{
@@ -86,14 +58,14 @@ var Tester = function () {
   }, {
     key: 'console',
     value: function console() {
-      this.consoleStream = _tape2.default.createStream();
+      this.consoleStream = tape.createStream();
       this.consoleStream.pipe(process.stdout);
     }
   }, {
     key: 'report',
     value: function report() {
-      var writeStream = _fs2.default.createWriteStream(this.config.output.report);
-      this.reportStream = _tape2.default.createStream();
+      var writeStream = fs.createWriteStream(this.config.output.report);
+      this.reportStream = tape.createStream();
       this.reportStream.pipe(this.tapToXUnitConverter).pipe(writeStream);
     }
   }, {
@@ -123,7 +95,7 @@ var Tester = function () {
     value: function prepare() {
       var _this2 = this;
 
-      return new _bluebird2.default(function (resolve, reject) {
+      return new Promise(function (resolve, reject) {
         _this2.tests = Array.isArray(_this2.tests) ? _this2.tests : [_this2.tests];
         var ops = _this2.tests.map(_this2.parser.parse.bind(_this2.parser)).reduce(function (prev, current) {
           return [].concat(_toConsumableArray(prev), _toConsumableArray(current));
@@ -142,12 +114,9 @@ var Tester = function () {
   }, {
     key: 'test',
     value: function test(tests) {
-      return (0, _async2.default)(tests);
+      return chain(tests);
     }
   }]);
 
   return Tester;
 }();
-
-exports.default = Tester;
-;

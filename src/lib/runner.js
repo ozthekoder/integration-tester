@@ -1,4 +1,7 @@
-import {
+const Utility = require('./utility');
+const tape = require('tape');
+const chain = require('./async');
+const {
   is,
   forEachKey,
   xor,
@@ -8,11 +11,9 @@ import {
   generateAssertions,
   getAllAssertions,
   countAssertions
-} from './utility';
-import tape from 'tape';
-import chain from './async'
+} = Utility;
 
-export default class Runner {
+module.exports = class Runner {
   constructor(pluginManager) {
     this.pluginManager = pluginManager;
     this.harness = null;

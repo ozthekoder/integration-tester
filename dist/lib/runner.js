@@ -1,26 +1,24 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _utility = require('./utility');
-
-var _tape = require('tape');
-
-var _tape2 = _interopRequireDefault(_tape);
-
-var _async = require('./async');
-
-var _async2 = _interopRequireDefault(_async);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Runner = function () {
+var Utility = require('./utility');
+var tape = require('tape');
+var chain = require('./async');
+var is = Utility.is;
+var forEachKey = Utility.forEachKey;
+var xor = Utility.xor;
+var isJsonSafePrimitive = Utility.isJsonSafePrimitive;
+var getReferences = Utility.getReferences;
+var applyReferences = Utility.applyReferences;
+var generateAssertions = Utility.generateAssertions;
+var getAllAssertions = Utility.getAllAssertions;
+var countAssertions = Utility.countAssertions;
+
+
+module.exports = function () {
   function Runner(pluginManager) {
     _classCallCheck(this, Runner);
 
@@ -33,7 +31,7 @@ var Runner = function () {
     value: function createTestHarness(assertionCount, log, cb) {
       var _this = this;
 
-      (0, _tape2.default)(log ? log : 'Planning the operations..', function (t) {
+      tape(log ? log : 'Planning the operations..', function (t) {
         _this.harness = t;
         _this.harness.plan(assertionCount);
         cb(t);
@@ -43,7 +41,7 @@ var Runner = function () {
     key: 'plan',
     value: function plan(ops) {
       return ops.map(function (op) {
-        return (0, _utility.countAssertions)(op.$payload.$expect);
+        return countAssertions(op.$payload.$expect);
       }).reduce(function (prev, current) {
         return prev + current;
       }, ops.length);
@@ -64,7 +62,7 @@ var Runner = function () {
       var _this3 = this;
 
       this.harness.comment(op.$log);
-      op = (0, _utility.applyReferences)(op);
+      op = applyReferences(op);
       var _op = op;
       var $args = _op.$args;
       var $op = _op.$op;
@@ -100,7 +98,7 @@ var Runner = function () {
       if (op.$payload && op.$payload.$expect) {
         var $expect = op.$payload.$expect;
 
-        var tests = (0, _utility.getAllAssertions)(payload, $expect);
+        var tests = getAllAssertions(payload, $expect);
         tests.forEach(function (test) {
           return _this4.harness[test.assertion].call(_this4.harness, test.actual, test.expectation, test.log);
         });
@@ -113,7 +111,7 @@ var Runner = function () {
       var $save = op.$payload.$save;
 
       if ($save) {
-        var refs = (0, _utility.getReferences)(payload, $save);
+        var refs = getReferences(payload, $save);
         this.pluginManager.saveRefs(refs);
       }
       return payload;
@@ -122,6 +120,3 @@ var Runner = function () {
 
   return Runner;
 }();
-
-exports.default = Runner;
-;
