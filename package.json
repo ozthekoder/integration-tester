@@ -1,7 +1,7 @@
 {
   "name": "integration-tester",
   "main": "dist/lib/index.js",
-  "version": "0.0.7",
+  "version": "0.1.6",
   "description": "API Test execution tool that can execute async operations in order and run assertion on the payloads.",
   "nyc": {
     "exclude": [
