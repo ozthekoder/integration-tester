@@ -3,9 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.__RewireAPI__ = exports.__ResetDependency__ = exports.__set__ = exports.__Rewire__ = exports.__GetDependency__ = exports.__get__ = undefined;
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -36,7 +33,7 @@ var Runner = function () {
     value: function createTestHarness(assertionCount, log, cb) {
       var _this = this;
 
-      _get__('tape')(log ? log : 'Planning the operations..', function (t) {
+      (0, _tape2.default)(log ? log : 'Planning the operations..', function (t) {
         _this.harness = t;
         _this.harness.plan(assertionCount);
         cb(t);
@@ -46,7 +43,7 @@ var Runner = function () {
     key: 'plan',
     value: function plan(ops) {
       return ops.map(function (op) {
-        return _get__('countAssertions')(op.$payload.$expect);
+        return op.$payload.$expect ? op.$payload.$expect.length : 0;
       }).reduce(function (prev, current) {
         return prev + current;
       }, ops.length);
@@ -67,18 +64,19 @@ var Runner = function () {
       var _this3 = this;
 
       this.harness.comment(op.$log);
-      op = _get__('applyReferences')(op);
-      var _op = op;
-      var $args = _op.$args;
-      var $op = _op.$op;
-      var $plugin = _op.$plugin;
-      var $timeout = _op.$timeout;
+      //op = applyReferences(op);
+      var $args = op.$args;
+      var $op = op.$op;
+      var $plugin = op.$plugin;
+      var $timeout = op.$timeout;
 
       return new Promise(function (resolve, reject) {
         var result = _this3.pluginManager.execute($plugin, $op, $args).catch(_this3.checkForHTTPError).then(function (response) {
           _this3.harness.pass($plugin + '.' + $op + ' successfully completed');
           return response;
-        }).then(_this3.runAssertions.bind(_this3, op)).then(_this3.saveRefs.bind(_this3, op)).then(resolve).catch(reject);
+        }).then(_this3.runAssertions.bind(_this3, op))
+        //.then(this.saveRefs.bind(this, op))
+        .then(resolve).catch(reject);
 
         setTimeout(reject.bind(null, new Error('Async Operation timed out')), $timeout);
       });
@@ -103,7 +101,7 @@ var Runner = function () {
       if (op.$payload && op.$payload.$expect) {
         var $expect = op.$payload.$expect;
 
-        var tests = _get__('getAllAssertions')(payload, $expect);
+        var tests = (0, _utility.getAllAssertions)(payload, $expect);
         tests.forEach(function (test) {
           return _this4.harness[test.assertion].call(_this4.harness, test.actual, test.expectation, test.log);
         });
@@ -116,7 +114,7 @@ var Runner = function () {
       var $save = op.$payload.$save;
 
       if ($save) {
-        var refs = _get__('getReferences')(payload, $save);
+        var refs = (0, _utility.getReferences)(payload, $save);
         this.pluginManager.saveRefs(refs);
       }
       return payload;
@@ -128,142 +126,4 @@ var Runner = function () {
 
 exports.default = Runner;
 ;
-var _RewiredData__ = {};
-var _RewireAPI__ = {};
-
-(function () {
-  function addPropertyToAPIObject(name, value) {
-    Object.defineProperty(_RewireAPI__, name, {
-      value: value,
-      enumerable: false,
-      configurable: true
-    });
-  }
-
-  addPropertyToAPIObject('__get__', _get__);
-  addPropertyToAPIObject('__GetDependency__', _get__);
-  addPropertyToAPIObject('__Rewire__', _set__);
-  addPropertyToAPIObject('__set__', _set__);
-  addPropertyToAPIObject('__reset__', _reset__);
-  addPropertyToAPIObject('__ResetDependency__', _reset__);
-  addPropertyToAPIObject('__with__', _with__);
-})();
-
-function _get__(variableName) {
-  return _RewiredData__ === undefined || _RewiredData__[variableName] === undefined ? _get_original__(variableName) : _RewiredData__[variableName];
-}
-
-function _get_original__(variableName) {
-  switch (variableName) {
-    case 'tape':
-      return _tape2.default;
-
-    case 'countAssertions':
-      return _utility.countAssertions;
-
-    case 'applyReferences':
-      return _utility.applyReferences;
-
-    case 'getAllAssertions':
-      return _utility.getAllAssertions;
-
-    case 'getReferences':
-      return _utility.getReferences;
-  }
-
-  return undefined;
-}
-
-function _assign__(variableName, value) {
-  if (_RewiredData__ === undefined || _RewiredData__[variableName] === undefined) {
-    return _set_original__(variableName, value);
-  } else {
-    return _RewiredData__[variableName] = value;
-  }
-}
-
-function _set_original__(variableName, _value) {
-  switch (variableName) {}
-
-  return undefined;
-}
-
-function _update_operation__(operation, variableName, prefix) {
-  var oldValue = _get__(variableName);
-
-  var newValue = operation === '++' ? oldValue + 1 : oldValue - 1;
-
-  _assign__(variableName, newValue);
-
-  return prefix ? newValue : oldValue;
-}
-
-function _set__(variableName, value) {
-  if ((typeof variableName === 'undefined' ? 'undefined' : _typeof(variableName)) === 'object') {
-    Object.keys(variableName).forEach(function (name) {
-      _RewiredData__[name] = variableName[name];
-    });
-  } else {
-    return _RewiredData__[variableName] = value;
-  }
-}
-
-function _reset__(variableName) {
-  delete _RewiredData__[variableName];
-}
-
-function _with__(object) {
-  var rewiredVariableNames = Object.keys(object);
-  var previousValues = {};
-
-  function reset() {
-    rewiredVariableNames.forEach(function (variableName) {
-      _RewiredData__[variableName] = previousValues[variableName];
-    });
-  }
-
-  return function (callback) {
-    rewiredVariableNames.forEach(function (variableName) {
-      previousValues[variableName] = _RewiredData__[variableName];
-      _RewiredData__[variableName] = object[variableName];
-    });
-    var result = callback();
-
-    if (!!result && typeof result.then == 'function') {
-      result.then(reset).catch(reset);
-    } else {
-      reset();
-    }
-
-    return result;
-  };
-}
-
-var _typeOfOriginalExport = typeof Runner === 'undefined' ? 'undefined' : _typeof(Runner);
-
-function addNonEnumerableProperty(name, value) {
-  Object.defineProperty(Runner, name, {
-    value: value,
-    enumerable: false,
-    configurable: true
-  });
-}
-
-if ((_typeOfOriginalExport === 'object' || _typeOfOriginalExport === 'function') && Object.isExtensible(Runner)) {
-  addNonEnumerableProperty('__get__', _get__);
-  addNonEnumerableProperty('__GetDependency__', _get__);
-  addNonEnumerableProperty('__Rewire__', _set__);
-  addNonEnumerableProperty('__set__', _set__);
-  addNonEnumerableProperty('__reset__', _reset__);
-  addNonEnumerableProperty('__ResetDependency__', _reset__);
-  addNonEnumerableProperty('__with__', _with__);
-  addNonEnumerableProperty('__RewireAPI__', _RewireAPI__);
-}
-
-exports.__get__ = _get__;
-exports.__GetDependency__ = _get__;
-exports.__Rewire__ = _set__;
-exports.__set__ = _set__;
-exports.__ResetDependency__ = _reset__;
-exports.__RewireAPI__ = _RewireAPI__;
 //# sourceMappingURL=runner.js.map

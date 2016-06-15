@@ -3,7 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.__RewireAPI__ = exports.__ResetDependency__ = exports.__set__ = exports.__Rewire__ = exports.__GetDependency__ = exports.__get__ = undefined;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
@@ -39,7 +38,7 @@ var Parser = function () {
       this.validateKeys(blueprint);
       this.validateTypes(blueprint);
       [].concat(_toConsumableArray(this.recursive), _toConsumableArray(this.each.before), _toConsumableArray(this.each.after)).forEach(function (key) {
-        if (key in blueprint && _get__('is')(blueprint[key]) === 'array') {
+        if (key in blueprint && (0, _utility.is)(blueprint[key]) === 'array') {
           blueprint[key].forEach(function (item) {
             return _this.validate(item);
           });
@@ -59,13 +58,13 @@ var Parser = function () {
           return {
             v: _this2.recursive.map(function (key) {
               if (blueprint[key]) {
-                if (_get__('is')(blueprint[key]) === 'array') {
+                if ((0, _utility.is)(blueprint[key]) === 'array') {
                   return blueprint[key].map(function (op) {
                     return _this2.flatten(op);
                   }).reduce(function (prev, current) {
                     return prev.concat(current);
                   }, []);
-                } else if (_get__('is')(blueprint[key]) === 'string') {
+                } else if ((0, _utility.is)(blueprint[key]) === 'string') {
                   return [blueprint];
                 }
               }
@@ -74,7 +73,7 @@ var Parser = function () {
               return prev.concat(current);
             }, []).map(function (op) {
               toRemove.forEach(function (key) {
-                if (op[key] && _get__('is')(op[key]) === 'array') {
+                if (op[key] && (0, _utility.is)(op[key]) === 'array') {
                   delete op[key];
                 }
               });
@@ -119,16 +118,16 @@ var Parser = function () {
     key: 'parse',
     value: function parse(blueprint) {
       if (this.validate(blueprint)) return this.flatten(blueprint);
-      throw new (_get__('ValidationError'))('Could not parse blueprint');
+      throw new _customErrors.ValidationError('Could not parse blueprint');
     }
   }, {
     key: 'validateDesignator',
     value: function validateDesignator(blueprint) {
       var designator = arguments.length <= 1 || arguments[1] === undefined ? this.designator : arguments[1];
 
-      _get__('forEachKey')(blueprint, function (key) {
+      (0, _utility.forEachKey)(blueprint, function (key) {
         if (key.charAt(0) !== designator) {
-          throw new (_get__('ValidationError'))('Designator character is missing in the ' + keys + ' key.');
+          throw new _customErrors.ValidationError('Designator character is missing in the ' + keys + ' key.');
         }
       });
       return true;
@@ -152,7 +151,7 @@ var Parser = function () {
       if (type) {
         switch (type) {
           case '$uuid':
-            return _get__('uuid').v4();
+            return _uuid2.default.v4();
             break;
           default:
             return '';
@@ -177,7 +176,7 @@ var Parser = function () {
         for (i = 0; i < must.length; i++) {
           if (!(must[i] in blueprint)) {
             if (!(must[i] in defaults)) {
-              throw new (_get__('ValidationError'))('required key ' + must[i] + ' was not found in the json');
+              throw new _customErrors.ValidationError('required key ' + must[i] + ' was not found in the json');
             }
             if (!this.isDesignatedKey(defaults[must[i]])) {
               blueprint[must[i]] = defaults[must[i]];
@@ -207,11 +206,11 @@ var Parser = function () {
 
 
       if (can && blueprint) {
-        _get__('forEachKey')(blueprint, function (k) {
+        (0, _utility.forEachKey)(blueprint, function (k) {
           if (!can.some(function (key) {
             return k === key;
           })) {
-            throw new (_get__('ValidationError'))('There is an unrecognized key in the json');
+            throw new _customErrors.ValidationError('There is an unrecognized key in the json');
           }
         });
       }
@@ -240,10 +239,10 @@ var Parser = function () {
             return key in blueprint;
           });
         }).reduce(function (prev, pair) {
-          return _get__('xor')(pair) && prev;
+          return (0, _utility.xor)(pair) && prev;
         }, true);
         if (!result) {
-          throw new (_get__('ValidationError'))('One of the explicit or keys conditions failed');
+          throw new _customErrors.ValidationError('One of the explicit or keys conditions failed');
         }
       }
       if (keys.children) {
@@ -273,7 +272,7 @@ var Parser = function () {
           return prev || predicate;
         }, false);
         if (!result) {
-          throw new (_get__('ValidationError'))('One of any key conditions failed');
+          throw new _customErrors.ValidationError('One of any key conditions failed');
         }
       }
       if (keys.children) {
@@ -309,7 +308,7 @@ var Parser = function () {
           });
         });
         if (!result) {
-          throw new (_get__('ValidationError'))('One of the required keys do not exist on the object');
+          throw new _customErrors.ValidationError('One of the required keys do not exist on the object');
         }
       }
       if (keys.children) {
@@ -331,7 +330,7 @@ var Parser = function () {
       var result = this.validateKeys(blueprint, keys);
 
       if (!result) {
-        throw new (_get__('ValidationError'))('Leaf node validation failed!');
+        throw new _customErrors.ValidationError('Leaf node validation failed!');
       }
       return true;
     }
@@ -348,7 +347,7 @@ var Parser = function () {
         if (this.isLeafNode(blueprint)) {
           this.validateLeafNode(blueprint, leaf);
         } else {
-          _get__('forEachKey')(blueprint, function (key) {
+          (0, _utility.forEachKey)(blueprint, function (key) {
             _this8.validateLeafNodes(blueprint[key], keys);
           });
         }
@@ -371,7 +370,7 @@ var Parser = function () {
 
       var check = true;
 
-      _get__('forEachKey')(node, function (key) {
+      (0, _utility.forEachKey)(node, function (key) {
         if (!_this9.isDesignatedKey(key)) {
           check = false;
         }
@@ -382,7 +381,7 @@ var Parser = function () {
   }, {
     key: 'isDesignatedKey',
     value: function isDesignatedKey(key) {
-      if (_get__('is')(key) === 'string') {
+      if ((0, _utility.is)(key) === 'string') {
         return key.indexOf(this.designator) === 0;
       }
 
@@ -411,13 +410,13 @@ var Parser = function () {
     value: function validateType(value, allowed) {
       var _this11 = this;
 
-      if (allowed && _get__('is')(allowed) === 'string') {
+      if (allowed && (0, _utility.is)(allowed) === 'string') {
         allowed = allowed.split('|');
         var result = allowed.some(function (type) {
-          return type === _get__('is')(value);
+          return type === (0, _utility.is)(value);
         });
         if (!result) {
-          throw new (_get__('ValidationError'))('Type validation on key failed!');
+          throw new _customErrors.ValidationError('Type validation on key failed!');
         }
       }
       Object.keys(value).filter(this.isDesignatedKey.bind(this)).filter(function (k) {
@@ -433,142 +432,4 @@ var Parser = function () {
 }();
 
 exports.default = Parser;
-var _RewiredData__ = {};
-var _RewireAPI__ = {};
-
-(function () {
-  function addPropertyToAPIObject(name, value) {
-    Object.defineProperty(_RewireAPI__, name, {
-      value: value,
-      enumerable: false,
-      configurable: true
-    });
-  }
-
-  addPropertyToAPIObject('__get__', _get__);
-  addPropertyToAPIObject('__GetDependency__', _get__);
-  addPropertyToAPIObject('__Rewire__', _set__);
-  addPropertyToAPIObject('__set__', _set__);
-  addPropertyToAPIObject('__reset__', _reset__);
-  addPropertyToAPIObject('__ResetDependency__', _reset__);
-  addPropertyToAPIObject('__with__', _with__);
-})();
-
-function _get__(variableName) {
-  return _RewiredData__ === undefined || _RewiredData__[variableName] === undefined ? _get_original__(variableName) : _RewiredData__[variableName];
-}
-
-function _get_original__(variableName) {
-  switch (variableName) {
-    case 'is':
-      return _utility.is;
-
-    case 'ValidationError':
-      return _customErrors.ValidationError;
-
-    case 'forEachKey':
-      return _utility.forEachKey;
-
-    case 'uuid':
-      return _uuid2.default;
-
-    case 'xor':
-      return _utility.xor;
-  }
-
-  return undefined;
-}
-
-function _assign__(variableName, value) {
-  if (_RewiredData__ === undefined || _RewiredData__[variableName] === undefined) {
-    return _set_original__(variableName, value);
-  } else {
-    return _RewiredData__[variableName] = value;
-  }
-}
-
-function _set_original__(variableName, _value) {
-  switch (variableName) {}
-
-  return undefined;
-}
-
-function _update_operation__(operation, variableName, prefix) {
-  var oldValue = _get__(variableName);
-
-  var newValue = operation === '++' ? oldValue + 1 : oldValue - 1;
-
-  _assign__(variableName, newValue);
-
-  return prefix ? newValue : oldValue;
-}
-
-function _set__(variableName, value) {
-  if ((typeof variableName === 'undefined' ? 'undefined' : _typeof(variableName)) === 'object') {
-    Object.keys(variableName).forEach(function (name) {
-      _RewiredData__[name] = variableName[name];
-    });
-  } else {
-    return _RewiredData__[variableName] = value;
-  }
-}
-
-function _reset__(variableName) {
-  delete _RewiredData__[variableName];
-}
-
-function _with__(object) {
-  var rewiredVariableNames = Object.keys(object);
-  var previousValues = {};
-
-  function reset() {
-    rewiredVariableNames.forEach(function (variableName) {
-      _RewiredData__[variableName] = previousValues[variableName];
-    });
-  }
-
-  return function (callback) {
-    rewiredVariableNames.forEach(function (variableName) {
-      previousValues[variableName] = _RewiredData__[variableName];
-      _RewiredData__[variableName] = object[variableName];
-    });
-    var result = callback();
-
-    if (!!result && typeof result.then == 'function') {
-      result.then(reset).catch(reset);
-    } else {
-      reset();
-    }
-
-    return result;
-  };
-}
-
-var _typeOfOriginalExport = typeof Parser === 'undefined' ? 'undefined' : _typeof(Parser);
-
-function addNonEnumerableProperty(name, value) {
-  Object.defineProperty(Parser, name, {
-    value: value,
-    enumerable: false,
-    configurable: true
-  });
-}
-
-if ((_typeOfOriginalExport === 'object' || _typeOfOriginalExport === 'function') && Object.isExtensible(Parser)) {
-  addNonEnumerableProperty('__get__', _get__);
-  addNonEnumerableProperty('__GetDependency__', _get__);
-  addNonEnumerableProperty('__Rewire__', _set__);
-  addNonEnumerableProperty('__set__', _set__);
-  addNonEnumerableProperty('__reset__', _reset__);
-  addNonEnumerableProperty('__ResetDependency__', _reset__);
-  addNonEnumerableProperty('__with__', _with__);
-  addNonEnumerableProperty('__RewireAPI__', _RewireAPI__);
-}
-
-exports.__get__ = _get__;
-exports.__GetDependency__ = _get__;
-exports.__Rewire__ = _set__;
-exports.__set__ = _set__;
-exports.__ResetDependency__ = _reset__;
-exports.__RewireAPI__ = _RewireAPI__;
 //# sourceMappingURL=parser.js.map

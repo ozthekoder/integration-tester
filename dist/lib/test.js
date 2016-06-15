@@ -24,14 +24,13 @@ var _utility = require('./utility');
 
 var _utility2 = _interopRequireDefault(_utility);
 
+var _test_foo = require('./blueprints/test_foo.json');
+
+var _test_foo2 = _interopRequireDefault(_test_foo);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = {
-  Tester: _tester2.default,
-  Runner: _runner2.default,
-  Parser: _parser2.default,
-  PluginManager: _pluginManager2.default,
-  Plugin: _plugin2.default,
-  Utility: _utility2.default
-};
-//# sourceMappingURL=index.js.map
+var tester = new _tester2.default(_test_foo2.default);
+
+tester.prepare().then(tester.test.bind(tester));
+//# sourceMappingURL=test.js.map

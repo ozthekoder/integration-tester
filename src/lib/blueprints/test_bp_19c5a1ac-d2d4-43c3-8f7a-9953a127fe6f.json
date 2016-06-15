@@ -1,0 +1,31 @@
+ {
+  "$log": "",
+  "$before": [],
+  "$skip": false,
+  "$beforeEach": [],
+  "$halt": false,
+  "$ops": [
+    {
+      "$log": "",
+      "$args": [
+        "/users"
+      ],
+      "$before": [],
+      "$skip": false,
+      "$beforeEach": [],
+      "$op": "get",
+      "$halt": false,
+      "$payload": {},
+      "$name": "some http op",
+      "$plugin": "http",
+      "$after": [],
+      "$afterEach": [],
+      "$timeout": 5000,
+      "$id": "04ded6a4-f4f8-42a7-9ab7-4738df790545"
+    }
+  ],
+  "$name": "",
+  "$after": [],
+  "$afterEach": [],
+  "$id": "19c5a1ac-d2d4-43c3-8f7a-9953a127fe6f"
+}

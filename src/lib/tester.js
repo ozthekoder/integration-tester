@@ -13,19 +13,15 @@ import { validation } from './config/constants.json';
 import {
   is,
   forEachKey,
-  xor,
-  isJsonSafePrimitive,
-  generateAssertions,
   getAllAssertions,
-  countAssertions
 } from './utility';
 
 
 export default class Tester {
-  constructor(tests = [], config = defaults) {
-    this.config = Object.assign(defaults, config);
+  constructor(file) {
+    this.tests = [file.test];
+    this.config = Object.assign({}, defaults, file.config);
     this.pluginManager = new PluginManager();
-    this.tests = tests;
     this.runner = new Runner(this.pluginManager);
     this.parser = new Parser(validation);
     this.consoleStream = null;

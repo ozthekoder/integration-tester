@@ -6,8 +6,8 @@
   "plugins": {
     "http": {
       "file": "./plugins/http",
-      "host": "localhost",
-      "port": 3000,
+      "host": "jsonplaceholder.typicode.com",
+      "port": 80,
       "path": ""
     },
     "kafka": {

@@ -1,13 +1,7 @@
 import {
-  is,
-  forEachKey,
-  xor,
-  isJsonSafePrimitive,
   getReferences,
   applyReferences,
-  generateAssertions,
   getAllAssertions,
-  countAssertions
 } from './utility';
 import tape from 'tape';
 import chain from './async'
@@ -28,7 +22,7 @@ export default class Runner {
 
   plan(ops) {
     return ops
-    .map((op) => countAssertions(op.$payload.$expect))
+    .map((op) => op.$payload.$expect ? op.$payload.$expect.length : 0)
     .reduce((prev, current) => prev + current, ops.length)
   }
 
@@ -39,7 +33,7 @@ export default class Runner {
 
   runOperation(op) {
     this.harness.comment(op.$log);
-    op = applyReferences(op);
+    //op = applyReferences(op);
     let { $args, $op, $plugin, $timeout } = op;
     return new Promise((resolve, reject) => {
       const result = this.pluginManager.execute($plugin, $op, $args)
@@ -49,7 +43,7 @@ export default class Runner {
         return response;
       })
       .then(this.runAssertions.bind(this, op))
-      .then(this.saveRefs.bind(this, op))
+      //.then(this.saveRefs.bind(this, op))
       .then(resolve)
       .catch(reject);
 

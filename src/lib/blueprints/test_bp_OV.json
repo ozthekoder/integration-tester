@@ -1,0 +1,1520 @@
+ {
+  "$log": "",
+  "$before": [
+    {
+      "$log": "Wait should wait yo",
+      "$args": [
+        "2"
+      ],
+      "$before": [],
+      "$skip": false,
+      "$beforeEach": [],
+      "$op": "wait",
+      "$halt": false,
+      "$payload": {},
+      "$name": "Trial wait 1",
+      "$plugin": "wait",
+      "$after": [],
+      "$afterEach": [],
+      "$timeout": 5000,
+      "$id": "5W"
+    }
+  ],
+  "$skip": false,
+  "$beforeEach": [],
+  "$halt": false,
+  "$ops": [
+    {
+      "$log": "Dummy endpoint should work yo",
+      "$args": [
+        "/users"
+      ],
+      "$before": [],
+      "$skip": false,
+      "$beforeEach": [],
+      "$op": "get",
+      "$halt": false,
+      "$payload": {
+        "$expect": [
+          {
+            "$path": [
+              "status"
+            ],
+            "$value": 200,
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "0",
+              "id"
+            ],
+            "$value": 1,
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "0",
+              "name"
+            ],
+            "$value": "Leanne Graham",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "0",
+              "username"
+            ],
+            "$value": "Bret",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "0",
+              "email"
+            ],
+            "$value": "Sincere@april.biz",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "0",
+              "address",
+              "street"
+            ],
+            "$value": "Kulas Light",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "0",
+              "address",
+              "suite"
+            ],
+            "$value": "Apt. 556",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "0",
+              "address",
+              "city"
+            ],
+            "$value": "Gwenborough",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "0",
+              "address",
+              "zipcode"
+            ],
+            "$value": "92998-3874",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "0",
+              "address",
+              "geo",
+              "lat"
+            ],
+            "$value": "-37.3159",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "0",
+              "address",
+              "geo",
+              "lng"
+            ],
+            "$value": "81.1496",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "0",
+              "phone"
+            ],
+            "$value": "1-770-736-8031 x56442",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "0",
+              "website"
+            ],
+            "$value": "hildegard.org",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "0",
+              "company",
+              "name"
+            ],
+            "$value": "Romaguera-Crona",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "0",
+              "company",
+              "catchPhrase"
+            ],
+            "$value": "Multi-layered client-server neural-net",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "0",
+              "company",
+              "bs"
+            ],
+            "$value": "harness real-time e-markets",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "1",
+              "id"
+            ],
+            "$value": 2,
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "1",
+              "name"
+            ],
+            "$value": "Ervin Howell",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "1",
+              "username"
+            ],
+            "$value": "Antonette",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "1",
+              "email"
+            ],
+            "$value": "Shanna@melissa.tv",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "1",
+              "address",
+              "street"
+            ],
+            "$value": "Victor Plains",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "1",
+              "address",
+              "suite"
+            ],
+            "$value": "Suite 879",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "1",
+              "address",
+              "city"
+            ],
+            "$value": "Wisokyburgh",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "1",
+              "address",
+              "zipcode"
+            ],
+            "$value": "90566-7771",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "1",
+              "address",
+              "geo",
+              "lat"
+            ],
+            "$value": "-43.9509",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "1",
+              "address",
+              "geo",
+              "lng"
+            ],
+            "$value": "-34.4618",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "1",
+              "phone"
+            ],
+            "$value": "010-692-6593 x09125",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "1",
+              "website"
+            ],
+            "$value": "anastasia.net",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "1",
+              "company",
+              "name"
+            ],
+            "$value": "Deckow-Crist",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "1",
+              "company",
+              "catchPhrase"
+            ],
+            "$value": "Proactive didactic contingency",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "1",
+              "company",
+              "bs"
+            ],
+            "$value": "synergize scalable supply-chains",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "2",
+              "id"
+            ],
+            "$value": 3,
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "2",
+              "name"
+            ],
+            "$value": "Clementine Bauch",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "2",
+              "username"
+            ],
+            "$value": "Samantha",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "2",
+              "email"
+            ],
+            "$value": "Nathan@yesenia.net",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "2",
+              "address",
+              "street"
+            ],
+            "$value": "Douglas Extension",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "2",
+              "address",
+              "suite"
+            ],
+            "$value": "Suite 847",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "2",
+              "address",
+              "city"
+            ],
+            "$value": "McKenziehaven",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "2",
+              "address",
+              "zipcode"
+            ],
+            "$value": "59590-4157",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "2",
+              "address",
+              "geo",
+              "lat"
+            ],
+            "$value": "-68.6102",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "2",
+              "address",
+              "geo",
+              "lng"
+            ],
+            "$value": "-47.0653",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "2",
+              "phone"
+            ],
+            "$value": "1-463-123-4447",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "2",
+              "website"
+            ],
+            "$value": "ramiro.info",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "2",
+              "company",
+              "name"
+            ],
+            "$value": "Romaguera-Jacobson",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "2",
+              "company",
+              "catchPhrase"
+            ],
+            "$value": "Face to face bifurcated interface",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "2",
+              "company",
+              "bs"
+            ],
+            "$value": "e-enable strategic applications",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "3",
+              "id"
+            ],
+            "$value": 4,
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "3",
+              "name"
+            ],
+            "$value": "Patricia Lebsack",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "3",
+              "username"
+            ],
+            "$value": "Karianne",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "3",
+              "email"
+            ],
+            "$value": "Julianne.OConner@kory.org",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "3",
+              "address",
+              "street"
+            ],
+            "$value": "Hoeger Mall",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "3",
+              "address",
+              "suite"
+            ],
+            "$value": "Apt. 692",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "3",
+              "address",
+              "city"
+            ],
+            "$value": "South Elvis",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "3",
+              "address",
+              "zipcode"
+            ],
+            "$value": "53919-4257",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "3",
+              "address",
+              "geo",
+              "lat"
+            ],
+            "$value": "29.4572",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "3",
+              "address",
+              "geo",
+              "lng"
+            ],
+            "$value": "-164.2990",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "3",
+              "phone"
+            ],
+            "$value": "493-170-9623 x156",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "3",
+              "website"
+            ],
+            "$value": "kale.biz",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "3",
+              "company",
+              "name"
+            ],
+            "$value": "Robel-Corkery",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "3",
+              "company",
+              "catchPhrase"
+            ],
+            "$value": "Multi-tiered zero tolerance productivity",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "3",
+              "company",
+              "bs"
+            ],
+            "$value": "transition cutting-edge web services",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "4",
+              "id"
+            ],
+            "$value": 5,
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "4",
+              "name"
+            ],
+            "$value": "Chelsey Dietrich",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "4",
+              "username"
+            ],
+            "$value": "Kamren",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "4",
+              "email"
+            ],
+            "$value": "Lucio_Hettinger@annie.ca",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "4",
+              "address",
+              "street"
+            ],
+            "$value": "Skiles Walks",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "4",
+              "address",
+              "suite"
+            ],
+            "$value": "Suite 351",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "4",
+              "address",
+              "city"
+            ],
+            "$value": "Roscoeview",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "4",
+              "address",
+              "zipcode"
+            ],
+            "$value": "33263",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "4",
+              "address",
+              "geo",
+              "lat"
+            ],
+            "$value": "-31.8129",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "4",
+              "address",
+              "geo",
+              "lng"
+            ],
+            "$value": "62.5342",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "4",
+              "phone"
+            ],
+            "$value": "(254)954-1289",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "4",
+              "website"
+            ],
+            "$value": "demarco.info",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "4",
+              "company",
+              "name"
+            ],
+            "$value": "Keebler LLC",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "4",
+              "company",
+              "catchPhrase"
+            ],
+            "$value": "User-centric fault-tolerant solution",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "4",
+              "company",
+              "bs"
+            ],
+            "$value": "revolutionize end-to-end systems",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "5",
+              "id"
+            ],
+            "$value": 6,
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "5",
+              "name"
+            ],
+            "$value": "Mrs. Dennis Schulist",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "5",
+              "username"
+            ],
+            "$value": "Leopoldo_Corkery",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "5",
+              "email"
+            ],
+            "$value": "Karley_Dach@jasper.info",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "5",
+              "address",
+              "street"
+            ],
+            "$value": "Norberto Crossing",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "5",
+              "address",
+              "suite"
+            ],
+            "$value": "Apt. 950",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "5",
+              "address",
+              "city"
+            ],
+            "$value": "South Christy",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "5",
+              "address",
+              "zipcode"
+            ],
+            "$value": "23505-1337",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "5",
+              "address",
+              "geo",
+              "lat"
+            ],
+            "$value": "-71.4197",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "5",
+              "address",
+              "geo",
+              "lng"
+            ],
+            "$value": "71.7478",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "5",
+              "phone"
+            ],
+            "$value": "1-477-935-8478 x6430",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "5",
+              "website"
+            ],
+            "$value": "ola.org",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "5",
+              "company",
+              "name"
+            ],
+            "$value": "Considine-Lockman",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "5",
+              "company",
+              "catchPhrase"
+            ],
+            "$value": "Synchronised bottom-line interface",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "5",
+              "company",
+              "bs"
+            ],
+            "$value": "e-enable innovative applications",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "6",
+              "id"
+            ],
+            "$value": 7,
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "6",
+              "name"
+            ],
+            "$value": "Kurtis Weissnat",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "6",
+              "username"
+            ],
+            "$value": "Elwyn.Skiles",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "6",
+              "email"
+            ],
+            "$value": "Telly.Hoeger@billy.biz",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "6",
+              "address",
+              "street"
+            ],
+            "$value": "Rex Trail",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "6",
+              "address",
+              "suite"
+            ],
+            "$value": "Suite 280",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "6",
+              "address",
+              "city"
+            ],
+            "$value": "Howemouth",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "6",
+              "address",
+              "zipcode"
+            ],
+            "$value": "58804-1099",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "6",
+              "address",
+              "geo",
+              "lat"
+            ],
+            "$value": "24.8918",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "6",
+              "address",
+              "geo",
+              "lng"
+            ],
+            "$value": "21.8984",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "6",
+              "phone"
+            ],
+            "$value": "210.067.6132",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "6",
+              "website"
+            ],
+            "$value": "elvis.io",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "6",
+              "company",
+              "name"
+            ],
+            "$value": "Johns Group",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "6",
+              "company",
+              "catchPhrase"
+            ],
+            "$value": "Configurable multimedia task-force",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "6",
+              "company",
+              "bs"
+            ],
+            "$value": "generate enterprise e-tailers",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "7",
+              "id"
+            ],
+            "$value": 8,
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "7",
+              "name"
+            ],
+            "$value": "Nicholas Runolfsdottir V",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "7",
+              "username"
+            ],
+            "$value": "Maxime_Nienow",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "7",
+              "email"
+            ],
+            "$value": "Sherwood@rosamond.me",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "7",
+              "address",
+              "street"
+            ],
+            "$value": "Ellsworth Summit",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "7",
+              "address",
+              "suite"
+            ],
+            "$value": "Suite 729",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "7",
+              "address",
+              "city"
+            ],
+            "$value": "Aliyaview",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "7",
+              "address",
+              "zipcode"
+            ],
+            "$value": "45169",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "7",
+              "address",
+              "geo",
+              "lat"
+            ],
+            "$value": "-14.3990",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "7",
+              "address",
+              "geo",
+              "lng"
+            ],
+            "$value": "-120.7677",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "7",
+              "phone"
+            ],
+            "$value": "586.493.6943 x140",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "7",
+              "website"
+            ],
+            "$value": "jacynthe.com",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "7",
+              "company",
+              "name"
+            ],
+            "$value": "Abernathy Group",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "7",
+              "company",
+              "catchPhrase"
+            ],
+            "$value": "Implemented secondary concept",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "7",
+              "company",
+              "bs"
+            ],
+            "$value": "e-enable extensible e-tailers",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "8",
+              "id"
+            ],
+            "$value": 9,
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "8",
+              "name"
+            ],
+            "$value": "Glenna Reichert",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "8",
+              "username"
+            ],
+            "$value": "Delphine",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "8",
+              "email"
+            ],
+            "$value": "Chaim_McDermott@dana.io",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "8",
+              "address",
+              "street"
+            ],
+            "$value": "Dayna Park",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "8",
+              "address",
+              "suite"
+            ],
+            "$value": "Suite 449",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "8",
+              "address",
+              "city"
+            ],
+            "$value": "Bartholomebury",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "8",
+              "address",
+              "zipcode"
+            ],
+            "$value": "76495-3109",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "8",
+              "address",
+              "geo",
+              "lat"
+            ],
+            "$value": "24.6463",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "8",
+              "address",
+              "geo",
+              "lng"
+            ],
+            "$value": "-168.8889",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "8",
+              "phone"
+            ],
+            "$value": "(775)976-6794 x41206",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "8",
+              "website"
+            ],
+            "$value": "conrad.com",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "8",
+              "company",
+              "name"
+            ],
+            "$value": "Yost and Sons",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "8",
+              "company",
+              "catchPhrase"
+            ],
+            "$value": "Switchable contextually-based project",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "8",
+              "company",
+              "bs"
+            ],
+            "$value": "aggregate real-time technologies",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "9",
+              "id"
+            ],
+            "$value": 10,
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "9",
+              "name"
+            ],
+            "$value": "Clementina DuBuque",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "9",
+              "username"
+            ],
+            "$value": "Moriah.Stanton",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "9",
+              "email"
+            ],
+            "$value": "Rey.Padberg@karina.biz",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "9",
+              "address",
+              "street"
+            ],
+            "$value": "Kattie Turnpike",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "9",
+              "address",
+              "suite"
+            ],
+            "$value": "Suite 198",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "9",
+              "address",
+              "city"
+            ],
+            "$value": "Lebsackbury",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "9",
+              "address",
+              "zipcode"
+            ],
+            "$value": "31428-2261",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "9",
+              "address",
+              "geo",
+              "lat"
+            ],
+            "$value": "-38.2386",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "9",
+              "address",
+              "geo",
+              "lng"
+            ],
+            "$value": "57.2232",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "9",
+              "phone"
+            ],
+            "$value": "024-648-3804",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "9",
+              "website"
+            ],
+            "$value": "ambrose.net",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "9",
+              "company",
+              "name"
+            ],
+            "$value": "Hoeger LLC",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "9",
+              "company",
+              "catchPhrase"
+            ],
+            "$value": "Centralized empowering task-force",
+            "$assert": "equal"
+          },
+          {
+            "$path": [
+              "body",
+              "9",
+              "company",
+              "bs"
+            ],
+            "$value": "target end-to-end models",
+            "$assert": "equal"
+          }
+        ]
+      },
+      "$name": "Dummy api trial op 1",
+      "$plugin": "http",
+      "$after": [],
+      "$afterEach": [],
+      "$timeout": 5000,
+      "$id": "kX"
+    }
+  ],
+  "$name": "Multiple",
+  "$after": [],
+  "$afterEach": [],
+  "$id": "OV"
+}

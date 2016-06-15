@@ -15,11 +15,7 @@
       "$ops": "array",
       "$args": "array",
       "$payload": {
-        "$expect": {
-          "$value": "number|string|array|object",
-          "$assert": "string",
-          "$log": "string"
-        },
+        "$expect": "array",
         "$save": "string|object",
         "$waitFor": {
           "$value": "number|string|object",
@@ -83,11 +79,6 @@
       "children": {
         "$payload": {
           "can": [
-            "$expect",
-            "$save",
-            "$waitFor"
-          ],
-          "any": [
             "$expect",
             "$save",
             "$waitFor"
