@@ -1,6 +1,6 @@
 const Promise = require('bluebird');
 
-export default class PluginManager {
+module.exports = class PluginManager {
   constructor() {
     this.session = {};
     this.plugins = {};

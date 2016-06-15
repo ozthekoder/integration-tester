@@ -1,4 +1,4 @@
-import { createURL } from '../../utility';
+const createURL = require('../../utility').createURL;
 const superagent = require('superagent');
 const saaspromised = require('superagent-as-promised');
 const Plugin = require('../plugin');

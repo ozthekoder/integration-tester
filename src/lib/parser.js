@@ -1,8 +1,8 @@
-import uuid from 'uuid';
-import { is, forEachKey, xor } from './utility';
-import { ValidationError } from './utility/custom-errors';
+const uuid = require('uuid');
+const { is, forEachKey, xor } = require('./utility');
+const { ValidationError } = require('./utility/custom-errors');
 
-export default class Parser {
+module.exports = class Parser {
   constructor(validation) {
     Object.assign(this, validation)
   }

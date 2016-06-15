@@ -1,6 +1,6 @@
---require dist/spec/bootstrap.js
+--require src/spec/bootstrap.js
 --reporter mocha-multi
 --compilers js:babel-register
 
-dist/spec/unit
+src/spec/unit
 --recursive
