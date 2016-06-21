@@ -51,8 +51,10 @@ export default class Tester {
       prev[current.$plugin] = true;
       return prev;
     }, {});
+
     Object
     .keys(plugins)
+    .filter((plugin) => !!plugin.file)
     .filter((plugin) => pluginsForOps[plugin])
     .map((key) => require(plugins[key].file))
     .map((Plugin) => new Plugin(plugins[Plugin.type]))
