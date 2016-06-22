@@ -102,7 +102,10 @@ var Tester = function () {
         prev[current.$plugin] = true;
         return prev;
       }, {});
+
       Object.keys(plugins).filter(function (plugin) {
+        return !!plugin.file;
+      }).filter(function (plugin) {
         return pluginsForOps[plugin];
       }).map(function (key) {
         return require(plugins[key].file);
