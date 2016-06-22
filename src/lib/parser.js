@@ -22,9 +22,10 @@ module.exports = class Parser {
 
   flatten(blueprint) {
     if(!blueprint.$skip) {
+      const repeat = blueprint.$repeat;
       this.addEachOps(blueprint)
       const toRemove = [...this.recursive, ...this.each.before, ...this.each.after];
-      return this.recursive
+      const base = this.recursive
       .map((key) => {
         if (blueprint[key]) {
           if(is(blueprint[key]) === 'array') {
@@ -47,6 +48,14 @@ module.exports = class Parser {
         });
         return op;
       });
+
+      let i;
+      flat = [];
+      for(i=0; i<repeat; i++) {
+        flat = [...flat, ...base];
+      }
+
+      return flat;
     }
 
     return [];
