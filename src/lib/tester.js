@@ -54,7 +54,7 @@ export default class Tester {
 
     Object
     .keys(plugins)
-    .filter((plugin) => !!plugin.file)
+    .filter((plugin) => !plugin.file)
     .filter((plugin) => pluginsForOps[plugin])
     .map((key) => require(plugins[key].file))
     .map((Plugin) => new Plugin(plugins[Plugin.type]))
@@ -74,6 +74,7 @@ export default class Tester {
       const assertionCount = this.runner.plan(ops);
 
       this.registerNativePlugins(ops);
+      console.log(this.pluginManager.plugins)
       this.pluginManager.initializePlugins()
       .then(() => {
         this.startStreams();

@@ -1,0 +1,187 @@
+ {
+  "config": {
+    "output": {
+      "console": true,
+      "report": false
+    },
+    "plugins": {
+      "http": {
+        "file": "./plugins/http",
+        "host": "localhost",
+        "port": "4000",
+        "path": "",
+        "interface": {
+          "$plugin_name": "http",
+          "get": {
+            "endpoint": "string",
+            "headers": "object"
+          },
+          "post": {
+            "endpoint": "string",
+            "headers": "object",
+            "body": "boolean|number|string|array|object"
+          },
+          "put": {
+            "endpoint": "string",
+            "headers": "object",
+            "body": "boolean|number|string|array|object"
+          },
+          "delete": {
+            "endpoint": "string",
+            "headers": "object"
+          }
+        },
+        "active": true
+      },
+      "kafka": {
+        "file": "./plugins/kafka",
+        "host": "localhost",
+        "port": 1121,
+        "topics": [
+          "test"
+        ],
+        "groupId": "api_tester",
+        "interface": {
+          "$plugin_name": "kafka",
+          "publish": {
+            "payload": "object"
+          },
+          "subscribe": {
+            "topic": "string",
+            "waitFor": "string|object",
+            "parse": "boolean"
+          },
+          "createTopics": {
+            "topics": "array"
+          },
+          "addTopicsToConsumer": {
+            "topics": "array"
+          }
+        },
+        "active": false
+      },
+      "wait": {
+        "file": "./plugins/wait",
+        "interface": {
+          "$plugin_name": "wait",
+          "wait": {
+            "seconds": "number"
+          }
+        },
+        "active": true
+      }
+    }
+  },
+  "test": {
+    "$log": "",
+    "$before": [],
+    "$skip": false,
+    "$beforeEach": [
+      {
+        "$log": "waited a second",
+        "$args": [
+          "1"
+        ],
+        "$before": [],
+        "$skip": false,
+        "$beforeEach": [],
+        "$op": "wait",
+        "$halt": false,
+        "$payload": {},
+        "$name": "1 second wait",
+        "$plugin": "wait",
+        "$after": [],
+        "$afterEach": [],
+        "$timeout": 5000,
+        "$lookup": false,
+        "$id": "08b3ad17-9bd6-4790-a5f0-c3c9c64b7352",
+        "$repeat": 0
+      }
+    ],
+    "$halt": false,
+    "$ops": [
+      {
+        "$log": "twohundred yo",
+        "$args": [
+          "/twohundred"
+        ],
+        "$before": [],
+        "$skip": false,
+        "$beforeEach": [],
+        "$op": "get",
+        "$halt": false,
+        "$payload": {
+          "$expect": [
+            {
+              "$path": [
+                "status"
+              ],
+              "$value": 200,
+              "$assert": "equal"
+            },
+            {
+              "$path": [
+                "body",
+                "message"
+              ],
+              "$value": "Success",
+              "$assert": "equal"
+            }
+          ]
+        },
+        "$name": "op 1",
+        "$plugin": "http",
+        "$after": [],
+        "$afterEach": [],
+        "$timeout": 5000,
+        "$lookup": false,
+        "$id": "5f971f50-0d1a-4c13-90d1-651b05bff86e",
+        "$repeat": 2
+      },
+      {
+        "$log": "twohundredone yo",
+        "$args": [
+          "/twohundredone"
+        ],
+        "$before": [],
+        "$skip": false,
+        "$beforeEach": [],
+        "$op": "get",
+        "$halt": false,
+        "$payload": {
+          "$expect": [
+            {
+              "$path": [
+                "status"
+              ],
+              "$value": 201,
+              "$assert": "equal"
+            },
+            {
+              "$path": [
+                "body",
+                "message"
+              ],
+              "$value": "Created",
+              "$assert": "equal"
+            }
+          ]
+        },
+        "$name": "op 2",
+        "$plugin": "http",
+        "$after": [],
+        "$afterEach": [],
+        "$timeout": 5000,
+        "$lookup": false,
+        "$id": "cdfd4b92-b36d-41f8-b173-e56c7c4e6a9d",
+        "$repeat": 2
+      }
+    ],
+    "$name": "",
+    "$after": [],
+    "$afterEach": [],
+    "$lookup": false,
+    "$id": "332a38c4-90d3-4566-ac88-d6f544a81d86",
+    "$repeat": 0
+  }
+}

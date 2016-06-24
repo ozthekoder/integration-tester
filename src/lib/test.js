@@ -5,10 +5,12 @@ import PluginManager from './plugin-manager';
 import Plugin from './plugins/plugin';
 import Utility from './utility';
 
-import test from './blueprints/test_foo.json';
+import test from './blueprints/foo.json';
 
+//const parser = new Parser();
 const tester = new Tester(test);
 
+//console.log(parser.parse(test.test));
 tester
 .prepare()
 .then(tester.test.bind(tester));

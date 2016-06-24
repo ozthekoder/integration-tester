@@ -1,10 +1,11 @@
 const uuid = require('uuid');
 const { is, forEachKey, xor } = require('./utility');
 const { ValidationError } = require('./utility/custom-errors');
+import { validation } from './config/constants'
 
 module.exports = class Parser {
-  constructor(validation) {
-    Object.assign(this, validation)
+  constructor(val=validation) {
+    Object.assign(this, val);
   }
 
   validate(blueprint) {
@@ -50,7 +51,7 @@ module.exports = class Parser {
       });
 
       let i;
-      flat = [];
+      let flat = base;
       for(i=0; i<repeat; i++) {
         flat = [...flat, ...base];
       }
@@ -91,7 +92,10 @@ module.exports = class Parser {
   validateDesignator(blueprint, designator = this.designator) {
     forEachKey(blueprint, (key) => {
       if(key.charAt(0) !== designator) {
-        throw new ValidationError(`Designator character is missing in the ${keys} key.`)
+        console.log(key)
+        console.log(designator)
+
+        throw new ValidationError(`Designator character is missing in the ${key} key.`)
       }
     });
     return true;
@@ -104,7 +108,6 @@ module.exports = class Parser {
     this.anyKeys(blueprint, keys);
     this.eitherOrKeys(blueprint, keys);
     this.requiredKeys(blueprint, keys);
-    //this.validateLeafNodes(blueprint, keys);
     return true;
   }
 

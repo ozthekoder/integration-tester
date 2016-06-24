@@ -104,7 +104,7 @@ var Tester = function () {
       }, {});
 
       Object.keys(plugins).filter(function (plugin) {
-        return !!plugin.file;
+        return !plugin.file;
       }).filter(function (plugin) {
         return pluginsForOps[plugin];
       }).map(function (key) {
@@ -131,6 +131,7 @@ var Tester = function () {
         var assertionCount = _this2.runner.plan(ops);
 
         _this2.registerNativePlugins(ops);
+        console.log(_this2.pluginManager.plugins);
         _this2.pluginManager.initializePlugins().then(function () {
           _this2.startStreams();
           _this2.runner.createTestHarness(assertionCount, null, function (t) {

@@ -54,6 +54,7 @@
       },
       "can": [
         "$id",
+        "$lookup",
         "$log",
         "$name",
         "$plugin",
